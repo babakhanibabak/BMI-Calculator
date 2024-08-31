@@ -5,3 +5,7 @@ data class BmiModel(
     val weight:Int ,
     val height:Int
 )
+data class BmiModelResult(
+    val bmi:Float,
+    val bmiCategory: String
+)
