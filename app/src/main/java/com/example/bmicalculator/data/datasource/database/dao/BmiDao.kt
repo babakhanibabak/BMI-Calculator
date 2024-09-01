@@ -11,23 +11,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BmiDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBmis(list: List<BmiEntity>)
+    suspend fun insertBmiData(bmiEntity: BmiEntity)
 
     @Query(SELECT_ALL)
-    fun getAllBmisFlow(): Flow<BmiEntity>
+    fun getAllBmiFlow(): Flow<BmiEntity>
 
     @Query(SELECT_ALL)
-    fun getAllBmi(): List<BmiEntity>
+    fun getAllBmi(): BmiEntity
 
-    @Query(DELETE_Bmi)
-    suspend fun deleteBmi(id: Int)
+    @Query(DELETE_BMI)
+    suspend fun deleteBmi()
 
 
     @Update
     fun updateBmi(location: BmiEntity)
 
     companion object {
-        private const val SELECT_ALL = "SELECT * FROM bmi"
-        private const val DELETE_Bmi = "DELETE FROM bmi WHERE id= :id"
+        private const val SELECT_ALL = "SELECT * FROM bmi_Data"
+        private const val DELETE_BMI = "DELETE FROM bmi_Data WHERE id= :id"
     }
 }
