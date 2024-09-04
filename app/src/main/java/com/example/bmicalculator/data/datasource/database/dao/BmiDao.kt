@@ -20,11 +20,11 @@ interface BmiDao {
     fun getAllBmi(): BmiEntity
 
     @Query(DELETE_BMI)
-    suspend fun deleteBmi()
+    suspend fun deleteBmiCalc(id:Int)
 
 
     @Update
-    fun updateBmi(location: BmiEntity)
+    fun updateBmi(bmiEntity: BmiEntity)
 
     companion object {
         private const val SELECT_ALL = "SELECT * FROM bmi_Data"
