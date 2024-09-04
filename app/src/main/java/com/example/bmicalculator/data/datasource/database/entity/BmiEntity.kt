@@ -7,8 +7,7 @@ import com.example.bmicalculator.domain.model.BmiModelResult
 
 @Entity("bmi_data")
 data class BmiEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id:Int=0,
+    @PrimaryKey(autoGenerate = true) val id:Int=0,
     val age:Int,
     val height:Int,
     val weight:Int
