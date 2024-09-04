@@ -1,14 +1,15 @@
 package com.example.bmicalculator.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bmicalculator.data.datasource.database.dao.BmiDao
 import com.example.bmicalculator.data.datasource.database.entity.BmiCalculationResult
 import com.example.bmicalculator.data.datasource.database.entity.BmiEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class BmiViewModel @Inject constructor(
     private val bmiDao: BmiDao
 ) : ViewModel() {
@@ -34,7 +35,7 @@ class BmiViewModel @Inject constructor(
 
     fun deleteAllBmiData() {
         viewModelScope.launch {
-            bmiDao.deleteBmi()
+            bmiDao.deleteBmiCalc(id = 0)
         }
     }
 
