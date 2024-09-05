@@ -33,9 +33,9 @@ class BmiViewModel @Inject constructor(
         bmiDao.insertBmiData(bmiEntity)
     }
 
-    fun deleteAllBmiData() {
+    fun deleteAllBmiData(id: Int) {
         viewModelScope.launch {
-            bmiDao.deleteBmiCalc(id = 0)
+            bmiDao.deleteBmiCalc(id )
         }
     }
 
