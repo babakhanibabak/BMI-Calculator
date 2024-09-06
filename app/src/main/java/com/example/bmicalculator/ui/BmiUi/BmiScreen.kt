@@ -1,4 +1,4 @@
-package com.example.bmicalculator.ui
+package com.example.bmicalculator.ui.BmiUi
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,19 +15,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 @Composable
-fun BmiScreen(modifier: Modifier = Modifier) {
-    BmiScreenContent()
+fun BmiScreen(
+    viewModel: BmiViewModel = hiltViewModel(),
+    onMaleClick: () -> Unit={},
+    onFemaleClick:()-> Unit={}
+) {
+    BmiScreenContent(
+        onMaleClick = onMaleClick,
+        onFemaleClick = onFemaleClick
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BmiScreenContent(modifier: Modifier = Modifier) {
+fun BmiScreenContent(
+                     onMaleClick: () -> Unit={},
+                     onFemaleClick:()-> Unit={}
+                     ) {
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier,
         topBar = {
             TopAppBar(
                 modifier = Modifier,
@@ -35,7 +46,7 @@ fun BmiScreenContent(modifier: Modifier = Modifier) {
                 title = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Bmi Calculate",
+                        text = "Bmi Calculator",
                         textAlign = TextAlign.Center
                     )
                 }
