@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BmiDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBmiData(bmiEntity: BmiEntity)
+    suspend fun insertBmiData(record: BmiEntity)
 
     @Query(SELECT_ALL)
     fun getAllBmiFlow(): Flow<BmiEntity>
 
     @Query(SELECT_ALL)
-    fun getAllBmi(): BmiEntity
+    suspend fun getAllBmi(): List<BmiEntity>
 
     @Query(DELETE_BMI)
     suspend fun deleteBmiCalc(id:Int)
