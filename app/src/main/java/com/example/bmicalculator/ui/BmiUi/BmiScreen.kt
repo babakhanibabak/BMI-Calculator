@@ -1,5 +1,6 @@
 package com.example.bmicalculator.ui.BmiUi
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -115,21 +117,42 @@ fun BmiScreenContent(
                 }
             }
             Spacer(modifier = Modifier.size(8.dp))
-           Row(modifier = Modifier.padding(5.dp)){
-               OutlinedTextField(
-                value = age,
-                onValueChange = { age = it },
-                label = { Text(text = "Age") })
-               OutlinedTextField(
-                value = weight,
-                onValueChange = { weight = it },
-                label = { Text(text = "Weight (kg)") })
-        }
+            Row(modifier = Modifier.padding(5.dp)) {
+                OutlinedTextField(
+                    value = age,
+                    onValueChange = { age = it },
+                    label = { Text(text = "Age") })
+                OutlinedTextField(
+                    value = weight,
+                    onValueChange = { weight = it },
+                    label = { Text(text = "Weight (kg)") })
+            }
             OutlinedTextField(
                 value = height,
                 onValueChange = { height = it },
                 label = { Text(text = "Height (cm)") })
         }
+        Spacer(modifier = Modifier.size(10.dp))
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 8.dp, color = Color.Black)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Column(modifier = Modifier.weight(0.33f)) {
+                Text(text = "BMI", color = Color.Green)
+            }
+            Column(modifier = Modifier.weight(0.33f)) {
+                Text(text = "Ideal Weight", color = Color.Blue)
+            }
+            Column(modifier = Modifier.weight(0.33f)) {
+                Text(text = "FAT", color = Color.Red)
+            }
+        }
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 20.dp,
+            color = Color.Black
+        )
 
     }
 }
