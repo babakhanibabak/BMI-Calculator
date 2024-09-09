@@ -14,7 +14,7 @@ interface BmiDao {
     suspend fun insertBmiData(record: BmiEntity)
 
     @Query(SELECT_ALL)
-    fun getAllBmiFlow(): Flow<BmiEntity>
+    fun getAllBmiFlow(): Flow<List<BmiEntity>>
 
     @Query(SELECT_ALL)
     suspend fun getAllBmi(): List<BmiEntity>
