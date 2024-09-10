@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,10 +46,15 @@ fun BmiScreen(
     onMaleClick: () -> Unit = {},
     onFemaleClick: () -> Unit = {}
 ) {
+    val isLoading by viewModel.isLoading.collectAsState()
+if (isLoading){
+    CircularProgressIndicator()
+}else {
     BmiScreenContent(
         onMaleClick = onMaleClick,
         onFemaleClick = onFemaleClick
     )
+}
 }
 
 
@@ -56,8 +62,10 @@ fun BmiScreen(
 @Composable
 fun BmiScreenContent(
     onMaleClick: () -> Unit = {},
-    onFemaleClick: () -> Unit = {}
+    onFemaleClick: () -> Unit = {},
+
 ) {
+
     var height by remember {
         mutableStateOf("")
     }
@@ -170,14 +178,21 @@ fun BmiScreenContent(
                 thickness = 1.dp,
                 color = Color.Black
             )
+            Spacer(modifier = Modifier.size(10.dp))
             Text(
                 text = "BMI Classification",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
                 fontSize = 20.sp,
                 color = Color.Black,
                 fontStyle = FontStyle.Italic
             )
             Spacer(modifier = Modifier.size(30.dp))
-            Column(modifier = Modifier.fillMaxSize().fillMaxWidth().padding(15.dp),
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(15.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
