@@ -1,13 +1,13 @@
 package com.example.bmicalculator.domain.model
 
 data class BmiModel(
-    val age: Float,
-    val weight: Float,
-    val height: Float,
+    val age: Double,
+    val weight: Double,
+    val height: Double,
     val gender:String,
-    val bmi: Float,
-    val idealWeight:Float,
-    val bodyFat:Float,
+    val bmi: Double,
+    val idealWeight:Double,
+    val bodyFat:Double,
 
     )
 data class BmiModelResult(
