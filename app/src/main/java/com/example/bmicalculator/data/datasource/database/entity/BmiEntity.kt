@@ -8,12 +8,12 @@ import com.example.bmicalculator.domain.model.BmiModelResult
 @Entity("bmi_data")
 data class BmiEntity(
     @PrimaryKey(autoGenerate = true) val id:Int=0,
-    val age:Float,
-    val height:Float,
-    val weight:Float,
+    val age:Double,
+    val height:Double,
+    val weight:Double,
     val gender:String,
-    val bmi:Float,
-    val idealWeight:Float,
-    val bodyFat:Float
+    val bmi:Double,
+    val idealWeight:Double,
+    val bodyFat:Double
 )
 
