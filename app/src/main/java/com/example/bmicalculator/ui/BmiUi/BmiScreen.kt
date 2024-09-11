@@ -47,14 +47,14 @@ fun BmiScreen(
     onFemaleClick: () -> Unit = {}
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
-if (isLoading){
-    CircularProgressIndicator()
-}else {
-    BmiScreenContent(
-        onMaleClick = onMaleClick,
-        onFemaleClick = onFemaleClick
-    )
-}
+    if (isLoading) {
+        CircularProgressIndicator()
+    } else {
+        BmiScreenContent(
+            onMaleClick = onMaleClick,
+            onFemaleClick = onFemaleClick
+        )
+    }
 }
 
 
@@ -64,7 +64,7 @@ fun BmiScreenContent(
     onMaleClick: () -> Unit = {},
     onFemaleClick: () -> Unit = {},
 
-) {
+    ) {
 
     var height by remember {
         mutableStateOf("")
@@ -134,17 +134,40 @@ fun BmiScreenContent(
                     modifier = Modifier.weight(0.5f),
                     value = age,
                     onValueChange = { age = it },
-                    label = { Text(text = "Age") })
+                    label = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Age",
+                            textAlign = TextAlign.Center
+                        )
+                    })
+                Spacer(modifier = Modifier.size(20.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
                     value = weight,
                     onValueChange = { weight = it },
-                    label = { Text(text = "Weight (kg)") })
+                    label = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Weight (kg)",
+                            textAlign = TextAlign.Center
+                        )
+                    })
             }
             OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 30.dp, end = 30.dp),
                 value = height,
                 onValueChange = { height = it },
-                label = { Text(text = "Height (cm)") })
+                label = {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Height (cm)",
+                        textAlign = TextAlign.Center
+                    )
+                })
 
             Spacer(modifier = Modifier.size(10.dp))
             HorizontalDivider(
@@ -155,22 +178,52 @@ fun BmiScreenContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
+                    .height(100.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(0.33f)) {
-                    Text(text = "BMI", color = Color.Green)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(), text = "BMI", color = Color.Green,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.size(15.dp))
-                    Text(text = bmi.toString(), color = Color.Black)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = bmi.toString(),
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
                 }
                 Column(modifier = Modifier.weight(0.33f)) {
-                    Text(text = "Ideal Weight", color = Color.Blue)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Ideal Weight",
+                        color = Color.Blue,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.size(15.dp))
-                    Text(text = idealWeight.toString(), color = Color.Black)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = idealWeight.toString(),
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
                 }
                 Column(modifier = Modifier.weight(0.33f)) {
-                    Text(text = "FAT", color = Color.Red)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "FAT",
+                        color = Color.Red,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.size(15.dp))
-                    Text(text = bodyFat.toString(), color = Color.Black)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = bodyFat.toString(),
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
             HorizontalDivider(
@@ -189,20 +242,33 @@ fun BmiScreenContent(
                 fontStyle = FontStyle.Italic
             )
             Spacer(modifier = Modifier.size(30.dp))
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .fillMaxWidth()
-                .padding(15.dp),
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(15.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
-            Text(modifier = Modifier.fillMaxWidth(),text = "Underweight:           BMI < 18.5")
-            Text(modifier = Modifier.fillMaxWidth(),text = "Normal weight:         18.5 <= BMI < 25")
-            Text(modifier = Modifier.fillMaxWidth(),text = "Overweight:            25 <= BMI < 30")
-            Text(modifier = Modifier.fillMaxWidth(),text = "obese class I:         30 <= BMI < 35")
-            Text(modifier = Modifier.fillMaxWidth(),text = "obese class II:        35 <= BMI < 40")
-            Text(modifier = Modifier.fillMaxWidth(),text = "obese class III:       BMI >= 40")
-        }
+            ) {
+                Text(modifier = Modifier.fillMaxWidth(), text = "Underweight:           BMI < 18.5")
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Normal weight:         18.5 <= BMI < 25"
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Overweight:            25 <= BMI < 30"
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "obese class I:         30 <= BMI < 35"
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "obese class II:        35 <= BMI < 40"
+                )
+                Text(modifier = Modifier.fillMaxWidth(), text = "obese class III:       BMI >= 40")
+            }
         }
     }
 }
