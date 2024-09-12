@@ -29,16 +29,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bmicalculator.ui.component.GetCategoryColor
 import com.example.bmicalculator.ui.component.calculateBmi
 import com.example.bmicalculator.ui.component.calculateBodyFat
 import com.example.bmicalculator.ui.component.calculateIdealWeight
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+
 
 @Composable
 fun BmiScreen(
@@ -65,6 +68,7 @@ fun BmiScreenContent(
     onFemaleClick: () -> Unit = {},
 
     ) {
+    var selectedGender by remember { mutableStateOf<String?>(null) }
 
     var height by remember {
         mutableStateOf("")
@@ -78,9 +82,11 @@ fun BmiScreenContent(
     val gender by remember {
         mutableStateOf("")
     }
-    val bmi = calculateBmi(height.toFloatOrNull(), weight.toFloatOrNull())
-    val idealWeight = calculateIdealWeight(height.toFloatOrNull(), gender)
-    val bodyFat = calculateBodyFat(bmi, age.toIntOrNull(), gender)
+    val bmi = calculateBmi(height.toDoubleOrNull(), weight.toDoubleOrNull())
+    val idealWeight = calculateIdealWeight(height.toDoubleOrNull() , selectedGender ?: "")
+    val bodyFat = calculateBodyFat(bmi, age.toIntOrNull(), selectedGender ?: "")
+    var bmiCategory by remember { mutableStateOf("N/A") }
+
 
     Scaffold(
         modifier = Modifier,
@@ -109,7 +115,7 @@ fun BmiScreenContent(
             ) {
                 Button(
                     modifier = Modifier.weight(0.5f),
-                    onClick = onMaleClick, shape = RectangleShape,
+                    onClick = { selectedGender="Male" }, shape = RectangleShape,
                     colors = ButtonColors(
                         containerColor = Color.Cyan,
                         contentColor = Color.Gray,
@@ -122,7 +128,7 @@ fun BmiScreenContent(
                 }
                 Button(
                     modifier = Modifier.weight(0.5f),
-                    onClick = onFemaleClick,
+                    onClick = { selectedGender = "Female" },
                     shape = RectangleShape
                 ) {
                     Text(text = "Female")
@@ -132,8 +138,8 @@ fun BmiScreenContent(
             Row(modifier = Modifier.padding(5.dp)) {
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = age,
-                    onValueChange = { age = it },
+                    value = age.toString() ?: "",
+                    onValueChange = { age = it.toIntOrNull().toString() },
                     label = {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
@@ -144,8 +150,8 @@ fun BmiScreenContent(
                 Spacer(modifier = Modifier.size(20.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = weight,
-                    onValueChange = { weight = it },
+                    value = weight.toString() ?:"",
+                    onValueChange = { weight = it.toDoubleOrNull().toString() },
                     label = {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
@@ -159,8 +165,8 @@ fun BmiScreenContent(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 30.dp, end = 30.dp),
-                value = height,
-                onValueChange = { height = it },
+                value = height.toString() ?: "",
+                onValueChange = { height = it.toDoubleOrNull().toString() },
                 label = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -250,7 +256,8 @@ fun BmiScreenContent(
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(modifier = Modifier.fillMaxWidth(), text = "Underweight:           BMI < 18.5")
+                Text(modifier = Modifier.fillMaxWidth(),
+                    text = "Underweight:           BMI < 18.5")
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Normal weight:         18.5 <= BMI < 25"
@@ -261,16 +268,25 @@ fun BmiScreenContent(
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
+                    color = GetCategoryColor(category = "obese class I") ,
                     text = "obese class I:         30 <= BMI < 35"
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "obese class II:        35 <= BMI < 40"
                 )
-                Text(modifier = Modifier.fillMaxWidth(), text = "obese class III:       BMI >= 40")
+                Text(
+                   text = "obese class III:       BMI >= 40",
+                    modifier = Modifier.fillMaxWidth(),
+                    color = GetCategoryColor(category = "Obese class III"),
+                    )
             }
         }
     }
+}
+
+fun Text(text: String, modifier: Modifier, Color: Int) {
+
 }
 
 
