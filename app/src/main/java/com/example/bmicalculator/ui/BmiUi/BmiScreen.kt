@@ -29,17 +29,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bmicalculator.ui.component.GetCategoryColor
 import com.example.bmicalculator.ui.component.calculateBmi
 import com.example.bmicalculator.ui.component.calculateBodyFat
 import com.example.bmicalculator.ui.component.calculateIdealWeight
+import com.example.bmicalculator.ui.component.getCategoryColor
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 
@@ -260,34 +260,35 @@ fun BmiScreenContent(
                     text = "Underweight:           BMI < 18.5")
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Normal weight:         18.5 <= BMI < 25"
+                    text = "Normal weight:         18.5 <= BMI < 25",
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Overweight:            25 <= BMI < 30"
+                    text = "Overweight:            25 <= BMI < 30",
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    color = GetCategoryColor(category = "obese class I") ,
-                    text = "obese class I:         30 <= BMI < 35"
+                    text = "obese class I:         30 <= BMI < 35",
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "obese class II:        35 <= BMI < 40"
+                    text = "obese class II:        35 <= BMI < 40",
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                    text = "obese class III:       BMI >= 40",
                     modifier = Modifier.fillMaxWidth(),
-                    color = GetCategoryColor(category = "Obese class III"),
+                    fontWeight = FontWeight.Bold
                     )
             }
         }
     }
 }
 
-fun Text(text: String, modifier: Modifier, Color: Int) {
 
-}
 
 
 @Preview
