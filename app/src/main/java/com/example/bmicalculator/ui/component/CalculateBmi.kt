@@ -2,7 +2,6 @@ package com.example.bmicalculator.ui.component
 
 import android.graphics.Color
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import kotlin.math.pow
 
 @Composable
@@ -46,8 +45,8 @@ fun getCategories (bmi: Double?):String {
 
 }
 
-@Composable
-fun GetCategoryColor(category: String): Int {
+
+fun getCategoryColor(category: String): Int {
     return when (category) {
         "Underweight" -> Color.YELLOW
         "Normal weight" -> Color.GREEN
