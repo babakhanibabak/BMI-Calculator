@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BMI Calculator</string>
+    <string name="underweight">Underweight:           BMI &lt; 18.5 </string>">
+    <string name="normal_weight">Normal weight:         18.5 &lt;= BMI &lt; 25</string>
+    <string name="overweight">Overweight:              25 &lt;= BMI &lt; 30</string>
+    <string name="obese_class_i">Obese class I:         30 &lt;= BMI &lt; 35</string>
+    <string name="obese_class_ii">Obese class II:       35 &lt;= BMI &lt; 40</string>
+    <string name="obese_class_iii">Obese class III:     BMI &gt;= 40</string>
 </resources>
