@@ -1,5 +1,6 @@
 package com.example.bmicalculator.ui.BmiUi
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,11 +38,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bmicalculator.R
 import com.example.bmicalculator.ui.component.calculateBmi
 import com.example.bmicalculator.ui.component.calculateBodyFat
 import com.example.bmicalculator.ui.component.calculateIdealWeight
 import com.example.bmicalculator.ui.component.getCategoryColor
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+
 
 
 @Composable
@@ -256,30 +260,34 @@ fun BmiScreenContent(
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(modifier = Modifier.fillMaxWidth(),
-                    text = "Underweight:           BMI < 18.5")
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Normal weight:         18.5 <= BMI < 25",
+                    text = stringResource(id = R.string.underweight),
+                    color = getCategoryColor(category = stringResource(id = R.string.underweight))
+                    )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.normal_weight),
+                    fontWeight = FontWeight.Bold,
+                    color = getCategoryColor(category = stringResource(id = R.string.normal_weight))
+                )
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(id = R.string.overweight),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Overweight:            25 <= BMI < 30",
+                    text = stringResource(id = R.string.obese_class_i),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "obese class I:         30 <= BMI < 35",
+                    text = stringResource(id = R.string.obese_class_ii),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "obese class II:        35 <= BMI < 40",
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                   text = "obese class III:       BMI >= 40",
+                   text = stringResource(id = R.string.obese_class_iii),
                     modifier = Modifier.fillMaxWidth(),
                     fontWeight = FontWeight.Bold
                     )
