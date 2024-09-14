@@ -1,6 +1,8 @@
 package com.example.bmicalculator.data
 
+import com.example.bmicalculator.data.bmi.BmiCalculatorImpl
 import com.example.bmicalculator.data.repository.BmiRepositoryImpl
+import com.example.bmicalculator.domain.bmi.BmiCalculator
 import com.example.bmicalculator.domain.repository.BmiRepository
 import dagger.Binds
 import dagger.Module
@@ -13,5 +15,9 @@ import javax.inject.Singleton
 interface DataModule {
     @Binds
     @Singleton
-    fun bindBmiRepository(impl:BmiRepositoryImpl):BmiRepository
+    fun bindBmiRepository(impl: BmiRepositoryImpl): BmiRepository
+
+    @Binds
+    @Singleton
+    fun bindBmiCalculator(impl: BmiCalculatorImpl): BmiCalculator
 }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
@@ -22,9 +21,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,9 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bmicalculator.R
-import com.example.bmicalculator.ui.component.calculateBmi
-import com.example.bmicalculator.ui.component.calculateBodyFat
-import com.example.bmicalculator.ui.component.calculateIdealWeight
+import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.component.getCategoryColor
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
@@ -48,46 +42,27 @@ import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 @Composable
 fun BmiScreen(
     viewModel: BmiViewModel = hiltViewModel(),
-    onMaleClick: () -> Unit = {},
-    onFemaleClick: () -> Unit = {},
 ) {
-    val isLoading by viewModel.isLoading.collectAsState()
-    if (isLoading) {
-        CircularProgressIndicator()
-    } else {
-        BmiScreenContent(
-            onMaleClick = onMaleClick,
-            onFemaleClick = onFemaleClick
-        )
-    }
+    val uiState by viewModel.uiState.collectAsState()
+
+    BmiScreenContent(
+        uiState = uiState,
+        onSelectGender = viewModel::onSelectGender,
+        onWeightChange = viewModel::onWeightChange,
+        onHeightChange = viewModel::onHeightChange,
+        onAgeChange = viewModel::onAgeChange,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BmiScreenContent(
-    onMaleClick: () -> Unit = {},
-    onFemaleClick: () -> Unit = {},
-    ) {
-    var selectedGender by remember { mutableStateOf<String?>(null) }
-
-    var height by remember {
-        mutableStateOf("")
-    }
-    var weight by remember {
-        mutableStateOf("")
-    }
-    var age by remember {
-        mutableStateOf("")
-    }
-    val gender by remember {
-        mutableStateOf("")
-    }
-    val bmi = calculateBmi(height.toDoubleOrNull(), weight.toDoubleOrNull())
-    val idealWeight = calculateIdealWeight(height.toDoubleOrNull(), selectedGender ?: "")
-    val bodyFat = calculateBodyFat(bmi, age.toIntOrNull(), selectedGender ?: "")
-    var bmiCategory by remember { mutableStateOf("N/A") }
-
-
+    uiState: BmiScreenState,
+    onSelectGender: (Gender) -> Unit = {},
+    onWeightChange: (String) -> Unit = {},
+    onHeightChange: (String) -> Unit = {},
+    onAgeChange: (String) -> Unit = {},
+) {
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -111,25 +86,32 @@ fun BmiScreenContent(
         ) {
             Row(
                 modifier = Modifier.padding(top = 20.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
-
             ) {
                 Button(
                     modifier = Modifier.weight(0.5f),
-                    onClick = { selectedGender = "Male" }, shape = RectangleShape,
+                    onClick = {
+                        onSelectGender(Gender.MALE)
+                    },
+                    shape = RectangleShape,
                     colors = ButtonColors(
-                        containerColor = Color.Cyan,
+                        containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
                         contentColor = Color.Gray,
                         disabledContentColor = Color.Cyan,
                         disabledContainerColor = Color.White
                     )
                 ) {
                     Text(text = "Male")
-
                 }
                 Button(
                     modifier = Modifier.weight(0.5f),
-                    onClick = { selectedGender = "Female" },
-                    shape = RectangleShape
+                    onClick = { onSelectGender(Gender.FEMALE) },
+                    shape = RectangleShape,
+                    colors = ButtonColors(
+                        containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
+                        contentColor = Color.Gray,
+                        disabledContentColor = Color.Cyan,
+                        disabledContainerColor = Color.White
+                    )
                 ) {
                     Text(text = "Female")
                 }
@@ -138,8 +120,8 @@ fun BmiScreenContent(
             Row(modifier = Modifier.padding(5.dp)) {
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = age.toString() ?: "",
-                    onValueChange = { age = it.toIntOrNull().toString() },
+                    value = uiState.age,
+                    onValueChange = onAgeChange,
                     label = {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
@@ -150,8 +132,8 @@ fun BmiScreenContent(
                 Spacer(modifier = Modifier.size(20.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = weight.toString() ?: "",
-                    onValueChange = { weight = it.toDoubleOrNull().toString() },
+                    value = uiState.weight.toString(),
+                    onValueChange = onWeightChange,
                     label = {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
@@ -165,8 +147,8 @@ fun BmiScreenContent(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 30.dp, end = 30.dp),
-                value = height.toString() ?: "",
-                onValueChange = { height = it.toDoubleOrNull().toString() },
+                value = uiState.height.toString(),
+                onValueChange = onHeightChange,
                 label = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -196,7 +178,7 @@ fun BmiScreenContent(
                     Spacer(modifier = Modifier.size(15.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = bmi.toString(),
+                        text = uiState.bmi.toString(),
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
@@ -211,7 +193,7 @@ fun BmiScreenContent(
                     Spacer(modifier = Modifier.size(15.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = idealWeight.toString(),
+                        text = uiState.idealWeight.toString(),
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
@@ -226,7 +208,7 @@ fun BmiScreenContent(
                     Spacer(modifier = Modifier.size(15.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = bodyFat.toString(),
+                        text = uiState.bodyFat.toString(),
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
@@ -297,6 +279,6 @@ fun BmiScreenContent(
 @Composable
 private fun BmiScreenContentPreview() {
     BMICalculatorTheme {
-        BmiScreenContent()
+        BmiScreenContent(uiState = BmiScreenState())
     }
 }

@@ -4,30 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.bmicalculator.R
-import kotlin.math.pow
-
-fun calculateBmi(height: Double?, weight: Double?): Double? {
-    if (height == null || weight == null) return null
-    return weight / (height / 100).pow(2)
-}
-
-fun calculateIdealWeight(height: Double?, gender: String): Double? {
-    if (height == null) return null
-    return if (gender == "Male") {
-        50 + 0.91 * (height - 152.4)
-    } else {
-        45.5 + 0.91 * (height - 152.4)
-    }
-}
-
-fun calculateBodyFat(bmi: Double?, age: Int?, gender: String): Double? {
-    if (bmi == null || age == null) return null
-    return if (gender == "Male") {
-        1.20 * bmi + 0.23 * age - 16.2
-    } else {
-        1.20 * bmi + 0.23 * age - 5.4
-    }
-}
 
 @Composable
 fun getCategories(bmi: Double?): String {
