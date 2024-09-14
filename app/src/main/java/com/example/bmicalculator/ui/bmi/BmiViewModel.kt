@@ -1,4 +1,4 @@
-package com.example.bmicalculator.ui.BmiUi
+package com.example.bmicalculator.ui.bmi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,8 +32,6 @@ class BmiViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-
-
                 val heightInMeters = record.height / 100
                 val bmi = record.weight / (heightInMeters * heightInMeters)
                 val bmiCategory = when {
@@ -66,6 +64,4 @@ class BmiViewModel @Inject constructor(
             }
         }
     }
-
-
 }

@@ -1,6 +1,5 @@
-package com.example.bmicalculator.ui.BmiUi
+package com.example.bmicalculator.ui.bmi
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,12 +45,11 @@ import com.example.bmicalculator.ui.component.getCategoryColor
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 
-
 @Composable
 fun BmiScreen(
     viewModel: BmiViewModel = hiltViewModel(),
     onMaleClick: () -> Unit = {},
-    onFemaleClick: () -> Unit = {}
+    onFemaleClick: () -> Unit = {},
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     if (isLoading) {
@@ -64,13 +62,11 @@ fun BmiScreen(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BmiScreenContent(
     onMaleClick: () -> Unit = {},
     onFemaleClick: () -> Unit = {},
-
     ) {
     var selectedGender by remember { mutableStateOf<String?>(null) }
 
@@ -87,7 +83,7 @@ fun BmiScreenContent(
         mutableStateOf("")
     }
     val bmi = calculateBmi(height.toDoubleOrNull(), weight.toDoubleOrNull())
-    val idealWeight = calculateIdealWeight(height.toDoubleOrNull() , selectedGender ?: "")
+    val idealWeight = calculateIdealWeight(height.toDoubleOrNull(), selectedGender ?: "")
     val bodyFat = calculateBodyFat(bmi, age.toIntOrNull(), selectedGender ?: "")
     var bmiCategory by remember { mutableStateOf("N/A") }
 
@@ -119,7 +115,7 @@ fun BmiScreenContent(
             ) {
                 Button(
                     modifier = Modifier.weight(0.5f),
-                    onClick = { selectedGender="Male" }, shape = RectangleShape,
+                    onClick = { selectedGender = "Male" }, shape = RectangleShape,
                     colors = ButtonColors(
                         containerColor = Color.Cyan,
                         contentColor = Color.Gray,
@@ -154,7 +150,7 @@ fun BmiScreenContent(
                 Spacer(modifier = Modifier.size(20.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = weight.toString() ?:"",
+                    value = weight.toString() ?: "",
                     onValueChange = { weight = it.toDoubleOrNull().toString() },
                     label = {
                         Text(
@@ -264,7 +260,7 @@ fun BmiScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.underweight),
                     color = getCategoryColor(category = stringResource(id = R.string.underweight))
-                    )
+                )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.normal_weight),
@@ -287,16 +283,14 @@ fun BmiScreenContent(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                   text = stringResource(id = R.string.obese_class_iii),
+                    text = stringResource(id = R.string.obese_class_iii),
                     modifier = Modifier.fillMaxWidth(),
                     fontWeight = FontWeight.Bold
-                    )
+                )
             }
         }
     }
 }
-
-
 
 
 @Preview
