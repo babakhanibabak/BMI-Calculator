@@ -20,8 +20,7 @@ interface BmiDao {
     suspend fun getAllBmi(): List<BmiEntity>
 
     @Query(DELETE_BMI)
-    suspend fun deleteBmiCalc(id:Int)
-
+    suspend fun deleteBmiCalc(id: Int)
 
     @Update
     fun updateBmi(bmiEntity: BmiEntity)

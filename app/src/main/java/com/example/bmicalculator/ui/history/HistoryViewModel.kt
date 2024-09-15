@@ -2,53 +2,38 @@ package com.example.bmicalculator.ui.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bmicalculator.data.datasource.database.entity.BmiEntity
-import com.example.bmicalculator.domain.repository.BmiRepository
+import com.example.bmicalculator.domain.usecase.BmiRecordsFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    private val repository: BmiRepository
-) :ViewModel(){
+    private val recordsFlowUseCase: BmiRecordsFlowUseCase,
+) : ViewModel() {
 
-    private val _bmiRecords = MutableStateFlow<List<BmiEntity>>(emptyList())
-    val bmiRecords: StateFlow<List<BmiEntity>> = _bmiRecords.asStateFlow()
+    private val _uiState = MutableStateFlow(HistoryScreenState(isLoading = true))
 
-    fun calculateBmi(record: BmiEntity) {
+    val uiState by lazy {
+        initData()
+        _uiState.asStateFlow()
+    }
+
+    private fun initData() {
         viewModelScope.launch {
-            try {
-                val heightInMeters = record.height / 100
-                val bmi = record.weight / (heightInMeters * heightInMeters)
-                val bmiCategory = when {
-                    bmi < 18.5 -> "Underweight"
-                    bmi in 18.5..24.9 -> "Normal weight"
-                    bmi in 25.0..29.9 -> "Overweight"
-                    bmi in 30.0..34.9 -> " obese class I"
-                    bmi in 35.0..39.9 -> "obese class II"
-                    else -> "obese class III"
+            recordsFlowUseCase.execute().catch {
+                _uiState.update { it.copy(isLoading = false, isError = true) }
+            }.collect { records ->
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        data = records.map { record -> record.toUiModel() },
+                    )
                 }
-                insertBmiData(record)
-            } finally {
-            }
-
-        }
-    }
-
-    fun insertBmiData(record: BmiEntity) {
-        viewModelScope.launch {
-            repository.insert(record)
-            loadRecords()
-        }
-    }
-
-    private fun loadRecords() {
-        viewModelScope.launch {
-            repository.getAllRecords().collect { records ->
-                _bmiRecords.value = records
             }
         }
     }

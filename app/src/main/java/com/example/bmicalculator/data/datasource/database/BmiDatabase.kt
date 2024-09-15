@@ -9,8 +9,8 @@ import com.example.bmicalculator.data.datasource.database.entity.BmiEntity
     entities = [BmiEntity::class],
     version = 1,
     exportSchema = true,
-    autoMigrations = []
-    )
-abstract class BmiDatabase:RoomDatabase() {
-abstract fun bmiDao():BmiDao
+    autoMigrations = [],
+)
+abstract class BmiDatabase : RoomDatabase() {
+    abstract fun bmiDao(): BmiDao
 }
