@@ -241,6 +241,7 @@ fun BmiScreenContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.underweight),
+                    fontWeight = FontWeight.Bold,
                     color = getCategoryColor(category = stringResource(id = R.string.underweight))
                 )
                 Text(
@@ -252,22 +253,26 @@ fun BmiScreenContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.overweight),
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = getCategoryColor(category = stringResource(id = R.string.overweight))
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.obese_class_i),
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_i))
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.obese_class_ii),
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_ii))
                 )
                 Text(
                     text = stringResource(id = R.string.obese_class_iii),
                     modifier = Modifier.fillMaxWidth(),
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_iii))
                 )
             }
         }
