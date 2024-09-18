@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
-import com.example.bmicalculator.ui.component.getCategoryColor
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 
@@ -261,31 +260,31 @@ fun BmiScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.underweight),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.underweight))
+                    color = bmiColor
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.normal_weight),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.normal_weight))
+                    color = bmiColor
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.overweight),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.overweight))
+                    color = bmiColor
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.obese_class_i),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_i))
+                    color =bmiColor
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.obese_class_ii),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_ii))
+                    color = bmiColor
                 )
                 Text(
                     text = stringResource(id = R.string.obese_class_iii),
