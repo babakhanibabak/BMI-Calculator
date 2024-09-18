@@ -78,6 +78,25 @@ fun BmiScreenContent(
                 }
             )
         }) { paddingValues ->
+        val underweightColor = Color(0xFFBBCCFF)  // Custom color for Underweight
+        val normalColor = Color(0xFFAACCEE)       // Custom color for Normal weight
+        val overweightColor = Color(0xFFDD8800)   // Custom color for Overweight
+        val obesityIColor = Color(0xFFFF9900)     // Custom color for Obesity I
+        val obesityIIColor = Color(0xFFFF6600)    // Custom color for Obesity II
+        val obesityIIIColor = Color(0xFFFF3300)   // Custom color for Obesity III
+        val defaultColor = Color.Black            // Default color for all other cases
+
+        // Determine the color based on the BMI value
+        val bmiColor = when {
+            uiState.bmi == null -> defaultColor            // No BMI value (null)
+            uiState.bmi < 18.5.toString() -> underweightColor         // Underweight
+            uiState.bmi in (18.5..24.9).toString() -> normalColor       // Normal weight
+            uiState.bmi in (25.0..29.9 ).toString()-> overweightColor   // Overweight
+            uiState.bmi in (30.0..34.9).toString() -> obesityIColor     // Obesity I
+            uiState.bmi in (35.0..39.9).toString() -> obesityIIColor    // Obesity II
+            uiState.bmi >= 40.0.toString() -> obesityIIIColor         // Obesity III
+            else -> defaultColor                   // Default case
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -272,7 +291,7 @@ fun BmiScreenContent(
                     text = stringResource(id = R.string.obese_class_iii),
                     modifier = Modifier.fillMaxWidth(),
                     fontWeight = FontWeight.Bold,
-                    color = getCategoryColor(category = stringResource(id = R.string.obese_class_iii))
+                    color = bmiColor
                 )
             }
         }
