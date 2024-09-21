@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+import kotlin.reflect.KFunction3
 
 
 @Composable
@@ -50,6 +51,7 @@ fun BmiScreen(
         onWeightChange = viewModel::onWeightChange,
         onHeightChange = viewModel::onHeightChange,
         onAgeChange = viewModel::onAgeChange,
+        onSaveToHistory = viewModel::onSaveToHistory
     )
 }
 
@@ -61,6 +63,7 @@ fun BmiScreenContent(
     onWeightChange: (String) -> Unit = {},
     onHeightChange: (String) -> Unit = {},
     onAgeChange: (String) -> Unit = {},
+    onSaveToHistory: KFunction3<String, String, String, Unit>? = null
 ) {
     Scaffold(
         modifier = Modifier,
@@ -90,7 +93,7 @@ fun BmiScreenContent(
             uiState.bmi == null -> defaultColor            // No BMI value (null)
             uiState.bmi < 18.5.toString() -> underweightColor         // Underweight
             uiState.bmi in (18.5..24.9).toString() -> normalColor       // Normal weight
-            uiState.bmi in (25.0..29.9 ).toString()-> overweightColor   // Overweight
+            uiState.bmi in (25.0..29.9).toString() -> overweightColor   // Overweight
             uiState.bmi in (30.0..34.9).toString() -> obesityIColor     // Obesity I
             uiState.bmi in (35.0..39.9).toString() -> obesityIIColor    // Obesity II
             uiState.bmi >= 40.0.toString() -> obesityIIIColor         // Obesity III
@@ -150,7 +153,7 @@ fun BmiScreenContent(
                 Spacer(modifier = Modifier.size(20.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(0.5f),
-                    value = uiState.weight.toString(),
+                    value = uiState.weight,
                     onValueChange = onWeightChange,
                     label = {
                         Text(
@@ -165,7 +168,7 @@ fun BmiScreenContent(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 30.dp, end = 30.dp),
-                value = uiState.height.toString(),
+                value = uiState.height,
                 onValueChange = onHeightChange,
                 label = {
                     Text(
@@ -237,6 +240,21 @@ fun BmiScreenContent(
                 thickness = 1.dp,
                 color = Color.Black
             )
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .align(Alignment.CenterHorizontally),
+                onClick = { onSaveToHistory },
+                colors = ButtonColors(
+                    containerColor = Color.Blue.copy(0.5f),
+                    contentColor = Color.Gray,
+                    disabledContentColor = Color.Cyan,
+                    disabledContainerColor = Color.Cyan
+                )
+            ) {
+                Text(text = "Save To History")
+            }
             Spacer(modifier = Modifier.size(10.dp))
             Text(
                 text = "BMI Classification",
@@ -247,7 +265,7 @@ fun BmiScreenContent(
                 color = Color.Black,
                 fontStyle = FontStyle.Italic
             )
-            Spacer(modifier = Modifier.size(30.dp))
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -278,7 +296,7 @@ fun BmiScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.obese_class_i),
                     fontWeight = FontWeight.Bold,
-                    color =bmiColor
+                    color = bmiColor
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
