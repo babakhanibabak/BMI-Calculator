@@ -46,6 +46,12 @@ class BmiViewModel @Inject constructor(
         _uiState.update { it.copy(age = age) }
         onCalculateBmi()
     }
+    fun onSaveToHistory(bmi:String,idealWeight:String,bodyFat:String){
+        _uiState.update {
+            it.copy(bmi=bmi, idealWeight = idealWeight, bodyFat = bodyFat)
+        }
+        saveToDatabase()
+    }
 
     private fun onCalculateBmi() {
         with(uiState) {
@@ -64,7 +70,21 @@ class BmiViewModel @Inject constructor(
                     )
                 }
 
-                // Save to database
+
+
+            }
+        }
+    }
+    // Save to database
+    private fun saveToDatabase() {
+        with(uiState) {
+            if (value.weight.isNotEmpty() && value.height.isNotEmpty() && value.age.isNotEmpty()) {
+                val weight = value.weight.toDoubleOrNull() ?: 0.0
+                val height = value.height.toDoubleOrNull() ?: 0.0
+                val age = value.age.toIntOrNull() ?: 0
+                val bmi = getBmiUseCase.execute(weight, height)
+                val idealWeight = getIdealWeightUseCase.execute(height, value.gender)
+                val bodyFat = getBodyFatUseCase.execute(bmi, age, value.gender)
                 viewModelScope.launch {
                     insertBmiRecordUseCase.execute(
                         record = BmiModel(
