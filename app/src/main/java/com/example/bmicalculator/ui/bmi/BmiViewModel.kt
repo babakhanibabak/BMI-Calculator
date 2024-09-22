@@ -85,6 +85,13 @@ class BmiViewModel @Inject constructor(
                 val bmi = getBmiUseCase.execute(weight, height)
                 val idealWeight = getIdealWeightUseCase.execute(height, value.gender)
                 val bodyFat = getBodyFatUseCase.execute(bmi, age, value.gender)
+                _uiState.update {
+                    it.copy(
+                        bmi = bmi.formatBmiValue(),
+                        idealWeight = idealWeight.formatBmiValue(),
+                        bodyFat = bodyFat.formatBmiValue(),
+                    )
+                }
                 viewModelScope.launch {
                     insertBmiRecordUseCase.execute(
                         record = BmiModel(
