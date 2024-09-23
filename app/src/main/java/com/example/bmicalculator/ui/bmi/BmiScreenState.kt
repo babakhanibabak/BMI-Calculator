@@ -10,4 +10,5 @@ data class BmiScreenState(
     val bmi: String? = null,
     val idealWeight: String? = null,
     val bodyFat: String? = null,
+    val bmiClassifications: List<BmiBmiClassificationItem>? = null,
 )

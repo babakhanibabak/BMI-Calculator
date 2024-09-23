@@ -1,18 +1,18 @@
 package com.example.bmicalculator.ui.bmi
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bmicalculator.data.extensions.formatBmiValue
 import com.example.bmicalculator.domain.model.BmiModel
 import com.example.bmicalculator.domain.model.Gender
-import com.example.bmicalculator.domain.usecase.BmiRecordsFlowUseCase
 import com.example.bmicalculator.domain.usecase.GetBmiUseCase
 import com.example.bmicalculator.domain.usecase.GetBodyFatUseCase
 import com.example.bmicalculator.domain.usecase.GetIdealWeightUseCase
 import com.example.bmicalculator.domain.usecase.InsertBmiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,15 +23,19 @@ class BmiViewModel @Inject constructor(
     private val getBmiUseCase: GetBmiUseCase,
     private val getIdealWeightUseCase: GetIdealWeightUseCase,
     private val getBodyFatUseCase: GetBodyFatUseCase,
-    private val insertBmiRecordUseCase: InsertBmiUseCase
+    private val insertBmiRecordUseCase: InsertBmiUseCase,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(BmiScreenState())
+    private val _uiState = MutableStateFlow(
+        BmiScreenState(
+            bmiClassifications = BmiClassificationMapper.mapClassifications(
+                bmi = null,
+                context = context,
+            )
+        )
+    )
     val uiState by lazy { _uiState.asStateFlow() }
-
-
-
-
 
     fun onSelectGender(gender: Gender) {
         _uiState.update { it.copy(gender = gender) }
@@ -52,6 +56,7 @@ class BmiViewModel @Inject constructor(
         _uiState.update { it.copy(age = age) }
         onCalculateBmi()
     }
+
     // Save BMI, Ideal Weight, and Body Fat to history
     fun onSaveToHistory() {
         with(_uiState) {
@@ -63,16 +68,7 @@ class BmiViewModel @Inject constructor(
                 // Calculate BMI, ideal weight, and body fat
                 val bmi = getBmiUseCase.execute(weightValue, heightValue)
                 val idealWeight = getIdealWeightUseCase.execute(heightValue, value.gender)
-                val bodyFat = getBodyFatUseCase.execute(bmi, ageValue,value.gender)
-
-                // Update UI state with the results
-                _uiState.update {
-                    it.copy(
-                        bmi = bmi.formatBmiValue(),
-                        idealWeight = idealWeight.formatBmiValue(),
-                        bodyFat = bodyFat.formatBmiValue()
-                    )
-                }
+                val bodyFat = getBodyFatUseCase.execute(bmi, ageValue, value.gender)
 
                 // Save to the database
                 viewModelScope.launch {
@@ -108,7 +104,11 @@ class BmiViewModel @Inject constructor(
                     it.copy(
                         bmi = bmi.formatBmiValue(),
                         idealWeight = idealWeight.formatBmiValue(),
-                        bodyFat = bodyFat.formatBmiValue()
+                        bodyFat = bodyFat.formatBmiValue(),
+                        bmiClassifications = BmiClassificationMapper.mapClassifications(
+                            bmi = bmi.formatBmiValue(),
+                            context = context,
+                        )
                     )
                 }
             }

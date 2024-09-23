@@ -1,19 +1,24 @@
 package com.example.bmicalculator.ui.history
 
+import androidx.compose.ui.graphics.Color
+import com.example.bmicalculator.data.extensions.formatBmiValue
 import com.example.bmicalculator.domain.model.BmiModel
+import com.example.bmicalculator.ui.bmi.BmiClassificationMapper
 
 data class BmiHistoryUiModel(
     val height: Double,
     val weight: Double,
-    val bmi: Double,
-    val idealWeight: Double,
-    val bodyFat: Double,
+    val bmi: String,
+    val idealWeight: String,
+    val bodyFat: String,
+    val backGroundColor: Color = Color.Transparent,
 )
 
 fun BmiModel.toUiModel() = BmiHistoryUiModel(
     height = height,
     weight = weight,
-    bmi = bmi,
-    idealWeight = idealWeight,
-    bodyFat = bodyFat,
+    bmi = bmi.formatBmiValue(),
+    idealWeight = idealWeight.formatBmiValue(),
+    bodyFat = bodyFat.formatBmiValue(),
+    backGroundColor = BmiClassificationMapper.getClassificationColor(bmi)
 )
