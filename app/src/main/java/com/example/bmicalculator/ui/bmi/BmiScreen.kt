@@ -255,6 +255,8 @@ fun BmiScreenContent(
                 Text(text = "Save To History")
             }
             Spacer(modifier = Modifier.size(10.dp))
+           Column {
+
             Text(
                 text = "BMI Classification",
                 modifier = Modifier
@@ -268,7 +270,6 @@ fun BmiScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .fillMaxWidth()
                     .padding(15.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -309,7 +310,7 @@ fun BmiScreenContent(
                     fontWeight = FontWeight.Bold,
                     color = bmiColor
                 )
-            }
+            }}
         }
     }
 }

@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.bmicalculator.data.extensions.formatBmiValue
 import com.example.bmicalculator.domain.model.BmiModel
 import com.example.bmicalculator.domain.model.Gender
+import com.example.bmicalculator.domain.usecase.BmiRecordsFlowUseCase
 import com.example.bmicalculator.domain.usecase.GetBmiUseCase
 import com.example.bmicalculator.domain.usecase.GetBodyFatUseCase
 import com.example.bmicalculator.domain.usecase.GetIdealWeightUseCase
 import com.example.bmicalculator.domain.usecase.InsertBmiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,11 +23,15 @@ class BmiViewModel @Inject constructor(
     private val getBmiUseCase: GetBmiUseCase,
     private val getIdealWeightUseCase: GetIdealWeightUseCase,
     private val getBodyFatUseCase: GetBodyFatUseCase,
-    private val insertBmiRecordUseCase: InsertBmiUseCase,
+    private val insertBmiRecordUseCase: InsertBmiUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BmiScreenState())
     val uiState by lazy { _uiState.asStateFlow() }
+
+
+
+
 
     fun onSelectGender(gender: Gender) {
         _uiState.update { it.copy(gender = gender) }
@@ -82,6 +88,7 @@ class BmiViewModel @Inject constructor(
                         )
                     )
                 }
+
             }
         }
     }
