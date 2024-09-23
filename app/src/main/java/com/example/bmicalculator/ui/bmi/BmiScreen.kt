@@ -36,7 +36,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
-import kotlin.reflect.KFunction3
 
 
 @Composable
@@ -63,7 +62,7 @@ fun BmiScreenContent(
     onWeightChange: (String) -> Unit = {},
     onHeightChange: (String) -> Unit = {},
     onAgeChange: (String) -> Unit = {},
-    onSaveToHistory: KFunction3<String, String, String, Unit>? = null
+    onSaveToHistory: ()-> Unit ={}
 ) {
     Scaffold(
         modifier = Modifier,
@@ -245,10 +244,10 @@ fun BmiScreenContent(
                     .fillMaxWidth()
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally),
-                onClick = { onSaveToHistory },
+                onClick = { onSaveToHistory() },
                 colors = ButtonColors(
-                    containerColor = Color.Blue.copy(0.5f),
-                    contentColor = Color.Gray,
+                    containerColor = Color.Blue.copy(0.3f),
+                    contentColor = Color.Black,
                     disabledContentColor = Color.Cyan,
                     disabledContainerColor = Color.Cyan
                 )
