@@ -46,63 +46,62 @@ class BmiViewModel @Inject constructor(
         _uiState.update { it.copy(age = age) }
         onCalculateBmi()
     }
-    fun onSaveToHistory(bmi:String,idealWeight:String,bodyFat:String){
-        _uiState.update {
-            it.copy(bmi=bmi, idealWeight = idealWeight, bodyFat = bodyFat)
-        }
-        saveToDatabase()
-    }
-
-    private fun onCalculateBmi() {
-        with(uiState) {
+    // Save BMI, Ideal Weight, and Body Fat to history
+    fun onSaveToHistory() {
+        with(_uiState) {
             if (value.weight.isNotEmpty() && value.height.isNotEmpty() && value.age.isNotEmpty()) {
-                val weight = value.weight.toDoubleOrNull() ?: 0.0
-                val height = value.height.toDoubleOrNull() ?: 0.0
-                val age = value.age.toIntOrNull() ?: 0
-                val bmi = getBmiUseCase.execute(weight, height)
-                val idealWeight = getIdealWeightUseCase.execute(height, value.gender)
-                val bodyFat = getBodyFatUseCase.execute(bmi, age, value.gender)
+                val weightValue = value.weight.toDoubleOrNull() ?: 0.0
+                val heightValue = value.height.toDoubleOrNull() ?: 0.0
+                val ageValue = value.age.toIntOrNull() ?: 0
+
+                // Calculate BMI, ideal weight, and body fat
+                val bmi = getBmiUseCase.execute(weightValue, heightValue)
+                val idealWeight = getIdealWeightUseCase.execute(heightValue, value.gender)
+                val bodyFat = getBodyFatUseCase.execute(bmi, ageValue,value.gender)
+
+                // Update UI state with the results
                 _uiState.update {
                     it.copy(
                         bmi = bmi.formatBmiValue(),
                         idealWeight = idealWeight.formatBmiValue(),
-                        bodyFat = bodyFat.formatBmiValue(),
+                        bodyFat = bodyFat.formatBmiValue()
                     )
                 }
 
-
-
-            }
-        }
-    }
-    // Save to database
-    private fun saveToDatabase() {
-        with(uiState) {
-            if (value.weight.isNotEmpty() && value.height.isNotEmpty() && value.age.isNotEmpty()) {
-                val weight = value.weight.toDoubleOrNull() ?: 0.0
-                val height = value.height.toDoubleOrNull() ?: 0.0
-                val age = value.age.toIntOrNull() ?: 0
-                val bmi = getBmiUseCase.execute(weight, height)
-                val idealWeight = getIdealWeightUseCase.execute(height, value.gender)
-                val bodyFat = getBodyFatUseCase.execute(bmi, age, value.gender)
-                _uiState.update {
-                    it.copy(
-                        bmi = bmi.formatBmiValue(),
-                        idealWeight = idealWeight.formatBmiValue(),
-                        bodyFat = bodyFat.formatBmiValue(),
-                    )
-                }
+                // Save to the database
                 viewModelScope.launch {
                     insertBmiRecordUseCase.execute(
                         record = BmiModel(
-                            age = age,
+                            age = ageValue,
                             gender = value.gender,
-                            height = height,
-                            weight = weight,
+                            height = heightValue,
+                            weight = weightValue,
                             bmi = bmi,
                             idealWeight = idealWeight,
-                            bodyFat = bodyFat,
+                            bodyFat = bodyFat
                         )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun onCalculateBmi() {
+        with(_uiState.value) {
+            if (weight.isNotEmpty() && height.isNotEmpty() && age.isNotEmpty()) {
+                val weightValue = weight.toDoubleOrNull() ?: 0.0
+                val heightValue = height.toDoubleOrNull() ?: 0.0
+                val ageValue = age.toIntOrNull() ?: 0
+
+                val bmi = getBmiUseCase.execute(weightValue, heightValue)
+                val idealWeight = getIdealWeightUseCase.execute(heightValue, gender)
+                val bodyFat = getBodyFatUseCase.execute(bmi, ageValue, gender)
+
+                _uiState.update {
+                    it.copy(
+                        bmi = bmi.formatBmiValue(),
+                        idealWeight = idealWeight.formatBmiValue(),
+                        bodyFat = bodyFat.formatBmiValue()
                     )
                 }
             }
