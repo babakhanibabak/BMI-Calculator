@@ -69,10 +69,10 @@ object BmiClassificationMapper {
         return when {
             bmiNumber == null -> BmiClassification.UNKNOWN
             bmiNumber < 18.5 -> BmiClassification.UNDER_WEIGHT
-            bmiNumber in (18.5..24.9) -> BmiClassification.NORMAL
-            bmiNumber in (25.0..29.9) -> BmiClassification.OVER_WEIGHT
-            bmiNumber in (30.0..34.9) -> BmiClassification.OBESE_CLASS_I
-            bmiNumber in (35.0..39.9) -> BmiClassification.OBESE_CLASS_II
+            bmiNumber in (18.5..25.0) -> BmiClassification.NORMAL
+            bmiNumber in (25.0..30.0) -> BmiClassification.OVER_WEIGHT
+            bmiNumber in (30.0..35.0) -> BmiClassification.OBESE_CLASS_I
+            bmiNumber in (35.0..40.0) -> BmiClassification.OBESE_CLASS_II
             bmiNumber >= 40.0 -> BmiClassification.OBESE_CLASS_III
             else -> BmiClassification.UNKNOWN
         }
