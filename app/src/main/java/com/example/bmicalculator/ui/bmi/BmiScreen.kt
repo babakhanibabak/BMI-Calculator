@@ -32,7 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
+import com.example.bmicalculator.ui.component.CircleImageUi
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 @Composable
@@ -75,35 +77,70 @@ fun BmiScreenContent(
             color = Color.Black
         )
         Row(
-            modifier = Modifier.padding(top = 20.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
-                modifier = Modifier.weight(0.5f),
-                onClick = {
-                    onSelectGender(Gender.MALE)
-                },
-                shape = RectangleShape,
-                colors = ButtonColors(
-                    containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
-                    contentColor = Color.Gray,
-                    disabledContentColor = Color.Cyan,
-                    disabledContainerColor = Color.White
-                )
+            Column(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .weight(0.5f)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Male")
+                CircleImageUi(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .fillMaxSize(),
+                    imageId = R.drawable.male
+                )
+
+                Button(
+                    modifier = Modifier.weight(0.5f),
+                    onClick = {
+                        onSelectGender(Gender.MALE)
+                    },
+                    shape = RectangleShape,
+                    colors = ButtonColors(
+                        containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
+                        contentColor = Color.Gray,
+                        disabledContentColor = Color.Cyan,
+                        disabledContainerColor = Color.White
+                    )
+                ) {
+                    Text(text = "Male")
+                }
             }
-            Button(
-                modifier = Modifier.weight(0.5f),
-                onClick = { onSelectGender(Gender.FEMALE) },
-                shape = RectangleShape,
-                colors = ButtonColors(
-                    containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
-                    contentColor = Color.Gray,
-                    disabledContentColor = Color.Cyan,
-                    disabledContainerColor = Color.White
-                )
+            Column(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .weight(0.5f)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Female")
+                CircleImageUi(
+                    imageId = R.drawable.female,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .fillMaxSize()
+                )
+                Button(
+                    modifier = Modifier.weight(0.5f),
+                    onClick = { onSelectGender(Gender.FEMALE) },
+                    shape = RectangleShape,
+                    colors = ButtonColors(
+                        containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
+                        contentColor = Color.Gray,
+                        disabledContentColor = Color.Cyan,
+                        disabledContainerColor = Color.White
+                    )
+                ) {
+                    Text(text = "Female")
+                }
             }
         }
         Spacer(modifier = Modifier.size(8.dp))
