@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +42,10 @@ import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.component.CircleImageUi
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+import com.example.bmicalculator.ui.theme.Blue3
+import com.example.bmicalculator.ui.theme.LightBlue
+import com.example.bmicalculator.ui.theme.DarkGreen
+import com.example.bmicalculator.ui.theme.LightGreen
 
 @Composable
 fun BmiScreen(
@@ -54,6 +63,7 @@ fun BmiScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BmiScreenContent(
     uiState: BmiScreenState,
@@ -80,36 +90,43 @@ fun BmiScreenContent(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(5.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+                .padding(top = 50.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier
-                    .weight(0.5f)
-                    .padding(5.dp)
-                    .height(100.dp)
+                    .weight(0.3f)
+                    .padding(10.dp)
+                    .height(110.dp)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 CircleImageUi(
                     modifier = Modifier
-                        .weight(0.5f)
-                        .size(50.dp)
+                        .weight(0.6f)
+                        .size(60.dp)
                         .fillMaxSize(),
                     imageId = R.drawable.male
                 )
 
                 Button(
                     modifier = Modifier
-                        .weight(0.5f)
+                        .weight(0.4f)
                         .padding(top = 3.dp)
                         .fillMaxWidth(),
                     onClick = {
                         onSelectGender(Gender.MALE)
                     },
-                    border = BorderStroke(width = 2.dp, Color.Cyan),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 12.dp,
+                        hoveredElevation = 6.dp,
+                        focusedElevation = 10.dp,
+                        disabledElevation = 0.dp
+                    ),
+                    border = BorderStroke(width = 2.dp, Color.LightGray),
                     shape = RoundedCornerShape(25.dp),
                     colors = ButtonColors(
                         containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
@@ -123,9 +140,9 @@ fun BmiScreenContent(
             }
             Column(
                 modifier = Modifier
-                    .padding(5.dp)
-                    .height(100.dp)
-                    .weight(0.5f)
+                    .padding(10.dp)
+                    .height(110.dp)
+                    .weight(0.3f)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -133,17 +150,24 @@ fun BmiScreenContent(
                 CircleImageUi(
                     imageId = R.drawable.female,
                     modifier = Modifier
-                        .weight(0.5f)
-                        .size(50.dp)
+                        .weight(0.6f)
+                        .size(60.dp)
                         .fillMaxSize()
                 )
                 Button(
                     modifier = Modifier
-                        .weight(0.5f)
+                        .weight(0.4f)
                         .padding(top = 3.dp)
                         .fillMaxWidth(),
                     onClick = { onSelectGender(Gender.FEMALE) },
-                    border = BorderStroke(width = 2.dp, Color.Cyan),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 12.dp,
+                        hoveredElevation = 6.dp,
+                        focusedElevation = 10.dp,
+                        disabledElevation = 0.dp
+                    ),
+                    border = BorderStroke(width = 2.dp, Color.LightGray),
                     shape = RoundedCornerShape(25.dp),
                     colors = ButtonColors(
                         containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
@@ -158,8 +182,9 @@ fun BmiScreenContent(
         }
         Spacer(modifier = Modifier.size(8.dp))
         Column(
-            modifier = Modifier.padding(5.dp),
-            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .padding(start = 25.dp, end = 25.dp, top = 5.dp, bottom = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
@@ -167,7 +192,7 @@ fun BmiScreenContent(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 30.dp, end = 30.dp),
-                shape = RoundedCornerShape(35.dp) ,
+                shape = RoundedCornerShape(35.dp),
                 value = uiState.age,
                 onValueChange = onAgeChange,
                 label = {
@@ -177,46 +202,61 @@ fun BmiScreenContent(
                         textAlign = TextAlign.Center,
                         color = Color.Blue
                     )
-                })
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = LightBlue
+                    )
+            )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
-                .padding(start = 30.dp, end = 30.dp),
-            shape = RoundedCornerShape(35.dp) ,
-            value = uiState.weight,
-            onValueChange = onWeightChange,
-            label = {
-                Text(
-                    modifier = Modifier.fillMaxSize(),
-                    text = "Weight (kg)",
-                    textAlign = TextAlign.Center,
-                    color = Color.Blue
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 30.dp, end = 30.dp),
+                shape = RoundedCornerShape(35.dp),
+                value = uiState.weight,
+                onValueChange = onWeightChange,
+                label = {
+                    Text(
+                        modifier = Modifier.fillMaxSize(),
+                        text = "Weight (kg)",
+                        textAlign = TextAlign.Center,
+                        color = Color.Blue
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = LightBlue
+                ))
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 30.dp, end = 30.dp),
+                shape = RoundedCornerShape(35.dp),
+                value = uiState.height,
+                onValueChange = onHeightChange,
+                label = {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Height (cm)",
+                        textAlign = TextAlign.Center,
+                        color = Color.Blue
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = LightBlue
                 )
-            })
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
-                .padding(start = 30.dp, end = 30.dp),
-            shape = RoundedCornerShape(35.dp) ,
-            value = uiState.height,
-            onValueChange = onHeightChange,
-            label = {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Height (cm)",
-                    textAlign = TextAlign.Center,
-                    color = Color.Blue
                 )
-            })
         }
 
         Spacer(modifier = Modifier.size(10.dp))
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = 1.dp,
-            color = Color.Black
+            color = Color.LightGray
         )
         Row(
             modifier = Modifier
@@ -227,7 +267,7 @@ fun BmiScreenContent(
         ) {
             Column(modifier = Modifier.weight(0.33f)) {
                 Text(
-                    modifier = Modifier.fillMaxWidth(), text = "BMI", color = Color.Green,
+                    modifier = Modifier.fillMaxWidth(), text = "BMI", color = DarkGreen,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(15.dp))
@@ -242,7 +282,7 @@ fun BmiScreenContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Ideal Weight",
-                    color = Color.Blue,
+                    color = DarkGreen,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(15.dp))
@@ -257,7 +297,7 @@ fun BmiScreenContent(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "FAT",
-                    color = Color.Red,
+                    color = DarkGreen,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(15.dp))
@@ -272,7 +312,7 @@ fun BmiScreenContent(
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
             thickness = 1.dp,
-            color = Color.Black
+            color = Color.LightGray
         )
         Column(
             modifier = Modifier
@@ -314,7 +354,7 @@ fun BmiScreenContent(
                 .align(Alignment.CenterHorizontally),
             onClick = { onSaveToHistory() },
             colors = ButtonColors(
-                containerColor = Color.Blue.copy(0.3f),
+                containerColor = Blue3.copy(alpha = 0.4f),
                 contentColor = Color.Black,
                 disabledContentColor = Color.Cyan,
                 disabledContainerColor = Color.Cyan
