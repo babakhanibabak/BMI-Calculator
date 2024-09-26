@@ -14,8 +14,13 @@ val Pink40 = Color(0xFF7D5260)
 val Orange = Color(0xFFFFA500)
 val LightOrange = Color(0xFFFFD700)
 
-val LightBlue = Color(0xFF42DDFF)
-val LightGreen = Color(0xFF4DC885)
+val DarkBlue = Color(0xFF03A9F4)
+val LightBlue = Color(0xFFCCF4F8)
+
+val DarkGreen = Color(0xFF4CC885)
+val LightGreen = Color(0xFF1DE58D)
+
+val Blue3=Color(0xFF35D2E9)
 
 val underweightColor = Color(0xFF42DDFF)  // Custom color for Underweight
 val normalColor = Color(0xFF4CC885)       // Custom color for Normal weight
