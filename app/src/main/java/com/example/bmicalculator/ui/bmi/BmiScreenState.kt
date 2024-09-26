@@ -7,8 +7,8 @@ data class BmiScreenState(
     val weight: String = "",
     val height: String = "",
     val age: String = "",
-    val bmi: String? = null,
-    val idealWeight: String? = null,
-    val bodyFat: String? = null,
+    val bmi: String? = "--",
+    val idealWeight: String? = "--",
+    val bodyFat: String? = "--",
     val bmiClassifications: List<BmiBmiClassificationItem>? = null,
 )
