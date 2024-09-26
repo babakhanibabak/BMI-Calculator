@@ -1,5 +1,7 @@
 package com.example.bmicalculator.ui.bmi
 
+
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -78,32 +79,38 @@ fun BmiScreenContent(
         )
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(5.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier
-                    .padding(5.dp)
                     .weight(0.5f)
+                    .padding(5.dp)
+                    .height(100.dp)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 CircleImageUi(
                     modifier = Modifier
+                        .weight(0.5f)
                         .size(50.dp)
                         .fillMaxSize(),
                     imageId = R.drawable.male
                 )
 
                 Button(
-                    modifier = Modifier.weight(0.5f),
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .padding(top = 3.dp)
+                        .fillMaxWidth(),
                     onClick = {
                         onSelectGender(Gender.MALE)
                     },
-                    shape = RectangleShape,
+                    border = BorderStroke(width = 2.dp, Color.Cyan),
+                    shape = RoundedCornerShape(25.dp),
                     colors = ButtonColors(
                         containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
                         contentColor = Color.Gray,
@@ -117,6 +124,7 @@ fun BmiScreenContent(
             Column(
                 modifier = Modifier
                     .padding(5.dp)
+                    .height(100.dp)
                     .weight(0.5f)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -125,13 +133,18 @@ fun BmiScreenContent(
                 CircleImageUi(
                     imageId = R.drawable.female,
                     modifier = Modifier
+                        .weight(0.5f)
                         .size(50.dp)
                         .fillMaxSize()
                 )
                 Button(
-                    modifier = Modifier.weight(0.5f),
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .padding(top = 3.dp)
+                        .fillMaxWidth(),
                     onClick = { onSelectGender(Gender.FEMALE) },
-                    shape = RectangleShape,
+                    border = BorderStroke(width = 2.dp, Color.Cyan),
+                    shape = RoundedCornerShape(25.dp),
                     colors = ButtonColors(
                         containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
                         contentColor = Color.Gray,
@@ -144,45 +157,60 @@ fun BmiScreenContent(
             }
         }
         Spacer(modifier = Modifier.size(8.dp))
-        Row(modifier = Modifier.padding(5.dp)) {
+        Column(
+            modifier = Modifier.padding(5.dp),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             OutlinedTextField(
-                modifier = Modifier.weight(0.5f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 30.dp, end = 30.dp),
+                shape = RoundedCornerShape(35.dp) ,
                 value = uiState.age,
                 onValueChange = onAgeChange,
                 label = {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                         text = "Age",
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = Color.Blue
                     )
                 })
-            Spacer(modifier = Modifier.size(20.dp))
-            OutlinedTextField(
-                modifier = Modifier.weight(0.5f),
-                value = uiState.weight,
-                onValueChange = onWeightChange,
-                label = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Weight (kg)",
-                        textAlign = TextAlign.Center
-                    )
-                })
-        }
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+                .padding(start = 30.dp, end = 30.dp),
+            shape = RoundedCornerShape(35.dp) ,
+            value = uiState.weight,
+            onValueChange = onWeightChange,
+            label = {
+                Text(
+                    modifier = Modifier.fillMaxSize(),
+                    text = "Weight (kg)",
+                    textAlign = TextAlign.Center,
+                    color = Color.Blue
+                )
+            })
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
                 .padding(start = 30.dp, end = 30.dp),
+            shape = RoundedCornerShape(35.dp) ,
             value = uiState.height,
             onValueChange = onHeightChange,
             label = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Height (cm)",
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color.Blue
                 )
             })
+        }
 
         Spacer(modifier = Modifier.size(10.dp))
         HorizontalDivider(
