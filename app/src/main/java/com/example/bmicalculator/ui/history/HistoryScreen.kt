@@ -36,7 +36,9 @@ private fun HistoryScreenContent(
     uiState: HistoryScreenState,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize().padding(all = 16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp),
         contentAlignment = Alignment.Center,
     ) {
         when {
@@ -74,12 +76,16 @@ private fun HistoryItem(model: BmiHistoryUiModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(model.backGroundColor, shape = RoundedCornerShape(16.dp)).padding(16.dp),
-        horizontalAlignment = Alignment.Start,
+            .background(
+                model.backGroundColor,
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("BMI: ${model.bmi}")
         Text("Ideal Weight: ${model.idealWeight}")
-        Text("Body Fat: ${model.bodyFat}")
+        Text("Body Fat: ${model.bodyFat}%")
     }
 }
 
