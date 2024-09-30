@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bmicalculator.ui.bmi.BmiScreen
+import com.example.bmicalculator.ui.classification.ClassificationScreen
 import com.example.bmicalculator.ui.history.HistoryScreen
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
@@ -81,6 +82,9 @@ private fun NavigationScreenContent() {
             }
             composable(BottomBarDestination.Points.route) {
                 HistoryScreen()
+            }
+            composable(BottomBarDestination.classification.route) {
+                ClassificationScreen()
             }
         }
     }
