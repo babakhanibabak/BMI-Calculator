@@ -1,7 +1,6 @@
 package com.example.bmicalculator.ui.bmi
 
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,8 +17,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -38,14 +35,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
-import com.example.bmicalculator.ui.component.CircleImageUi
+import com.example.bmicalculator.ui.component.GenderCardUi
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.Blue3
-import com.example.bmicalculator.ui.theme.LightBlue
 import com.example.bmicalculator.ui.theme.DarkGreen
-import com.example.bmicalculator.ui.theme.LightGreen
+import com.example.bmicalculator.ui.theme.LightBlue
 
 @Composable
 fun BmiScreen(
@@ -63,7 +58,6 @@ fun BmiScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BmiScreenContent(
     uiState: BmiScreenState,
@@ -76,7 +70,7 @@ fun BmiScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Text(
@@ -89,96 +83,22 @@ fun BmiScreenContent(
         )
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 50.dp),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.3f)
-                    .padding(10.dp)
-                    .height(110.dp)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircleImageUi(
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .size(60.dp)
-                        .fillMaxSize(),
-                    imageId = R.drawable.male
-                )
-
-                Button(
-                    modifier = Modifier
-                        .weight(0.4f)
-                        .padding(top = 3.dp)
-                        .fillMaxWidth(),
-                    onClick = {
-                        onSelectGender(Gender.MALE)
-                    },
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 8.dp,
-                        pressedElevation = 12.dp,
-                        hoveredElevation = 6.dp,
-                        focusedElevation = 10.dp,
-                        disabledElevation = 0.dp
-                    ),
-                    border = BorderStroke(width = 2.dp, Color.LightGray),
-                    shape = RoundedCornerShape(25.dp),
-                    colors = ButtonColors(
-                        containerColor = if (uiState.gender == Gender.MALE) Color.Cyan else Color.White,
-                        contentColor = Color.Gray,
-                        disabledContentColor = Color.Cyan,
-                        disabledContainerColor = Color.White
-                    )
-                ) {
-                    Text(text = "Male")
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .height(110.dp)
-                    .weight(0.3f)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircleImageUi(
-                    imageId = R.drawable.female,
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .size(60.dp)
-                        .fillMaxSize()
-                )
-                Button(
-                    modifier = Modifier
-                        .weight(0.4f)
-                        .padding(top = 3.dp)
-                        .fillMaxWidth(),
-                    onClick = { onSelectGender(Gender.FEMALE) },
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 8.dp,
-                        pressedElevation = 12.dp,
-                        hoveredElevation = 6.dp,
-                        focusedElevation = 10.dp,
-                        disabledElevation = 0.dp
-                    ),
-                    border = BorderStroke(width = 2.dp, Color.LightGray),
-                    shape = RoundedCornerShape(25.dp),
-                    colors = ButtonColors(
-                        containerColor = if (uiState.gender == Gender.FEMALE) Color.Cyan else Color.White,
-                        contentColor = Color.Gray,
-                        disabledContentColor = Color.Cyan,
-                        disabledContainerColor = Color.White
-                    )
-                ) {
-                    Text(text = "Female")
-                }
-            }
+            GenderCardUi(
+                gender = Gender.MALE,
+                isSelected = uiState.gender == Gender.MALE,
+                onClick = { onSelectGender(Gender.MALE) }
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            GenderCardUi(
+                gender = Gender.FEMALE,
+                isSelected = uiState.gender == Gender.FEMALE,
+                onClick = { onSelectGender(Gender.FEMALE) }
+            )
         }
         Spacer(modifier = Modifier.size(8.dp))
         Column(
@@ -206,7 +126,7 @@ fun BmiScreenContent(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = LightBlue
-                    )
+                )
             )
 
             OutlinedTextField(
@@ -228,7 +148,8 @@ fun BmiScreenContent(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = LightBlue
-                ))
+                )
+            )
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -249,7 +170,7 @@ fun BmiScreenContent(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = LightBlue
                 )
-                )
+            )
         }
 
         Spacer(modifier = Modifier.size(10.dp))

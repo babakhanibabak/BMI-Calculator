@@ -28,3 +28,5 @@ val overweightColor = Color(0xFFEDE735)   // Custom color for Overweight
 val obesityIColor = Color(0xFFFFA903)     // Custom color for Obesity I
 val obesityIIColor = Color(0xFFFE5A00)    // Custom color for Obesity II
 val obesityIIIColor = Color(0xFFFF2828)   // Custom color for Obesity III
+
+val GenderSelectedColor = Color(0xFF6391ca)
