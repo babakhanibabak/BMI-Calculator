@@ -2,7 +2,6 @@ package com.example.bmicalculator.ui.classification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,15 +25,18 @@ import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 @Composable
 fun ClassificationScreen(
-    viewModel: BmiViewModel = hiltViewModel()) {
+    viewModel: BmiViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
 
-   ClassificationScreenContent(uiState=uiState)
+   ClassificationScreenContent(uiState)
 }
+
 
 @Composable
 fun ClassificationScreenContent(
-    uiState: BmiScreenState) {
+    uiState: BmiScreenState
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,7 +51,7 @@ fun ClassificationScreenContent(
 
         uiState.bmiClassifications?.let { classifications ->
             classifications.forEach { classification ->
-                androidx.compose.material3.Text(
+               Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
