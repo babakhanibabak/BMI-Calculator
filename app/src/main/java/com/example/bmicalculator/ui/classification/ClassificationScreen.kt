@@ -49,21 +49,7 @@ fun ClassificationScreenContent(
             textAlign = TextAlign.Center,
             fontSize = 24.sp,)
 
-        uiState.bmiClassifications?.let { classifications ->
-            classifications.forEach { classification ->
-               Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            classification.backgroundColor,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(all = 8.dp),
-                    text = classification.title,
-                    fontWeight = FontWeight.Bold,
-                    color = classification.color,
-                )
-            }
+        uiState.bmiClassifications?.let {
         }
     }
 }
