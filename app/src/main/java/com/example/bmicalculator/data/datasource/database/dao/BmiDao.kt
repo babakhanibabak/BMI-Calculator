@@ -22,6 +22,9 @@ interface BmiDao {
     @Query(DELETE_BMI)
     suspend fun deleteBmiCalc(id: Int)
 
+    @Query("SELECT * FROM bmi_data WHERE accountId = :accountId")
+    fun getBmiByAccount(accountId: Int): Flow<List<BmiEntity>>
+
     @Update
     fun updateBmi(bmiEntity: BmiEntity)
 
