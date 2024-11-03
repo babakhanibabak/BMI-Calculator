@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class BottomBarDestination(val route: String) {
     data object Map : BottomBarDestination("bmi_screen")
     data object Points : BottomBarDestination("history_screen")
-    data object classification: BottomBarDestination("classification_screen")
+    data object Profile: BottomBarDestination("profile_screen")
 }
 
 data class BottomNavigationItem(
@@ -37,8 +37,8 @@ data class BottomNavigationItem(
         BottomNavigationItem(
             selectedIcon = Icons.AutoMirrored.Filled.Send,
             unSelectedIcon = Icons.AutoMirrored.Outlined.Send,
-            text = "Classification",
-            route = BottomBarDestination.classification.route
+            text = "Profile",
+            route = BottomBarDestination.Profile.route
         )
     )
 }
