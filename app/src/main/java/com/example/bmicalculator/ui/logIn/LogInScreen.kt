@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,19 +63,25 @@ fun LogInScreenContent(
 ) {
 
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF35D2E9), shape = RoundedCornerShape(25.dp),),
+        contentAlignment = Alignment.Center,
     ) {
-
         Column(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = " Welcome! ", fontSize = 50.sp)
+            Column(modifier = Modifier.height(400.dp),
+                verticalArrangement = Arrangement.Bottom) {
+                Text(modifier = Modifier,
+                text = " Welcome! ",
+                textAlign = TextAlign.Center,
+                fontSize = 50.sp)
+            }
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
+                modifier = Modifier.fillMaxSize().weight(0.6f)
                     .background(
                         shape = RoundedCornerShape(25.dp),
                         color = Color.White
