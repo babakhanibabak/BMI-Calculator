@@ -6,10 +6,12 @@ import com.example.bmicalculator.data.datasource.database.dao.AccountDao
 import com.example.bmicalculator.data.datasource.database.dao.BmiDao
 import com.example.bmicalculator.domain.model.BmiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +21,9 @@ class LogInViewModel @Inject constructor(
    private val accountDao: AccountDao,
     private val bmiDao: BmiDao
 ):ViewModel() {
+
+    private val _gotoHomeChannel = Channel<Boolean>()
+    val gotoHomeChannel by lazy { _gotoHomeChannel.receiveAsFlow() }
 
     private val _logInState = MutableStateFlow(LoginState())
      val uiState by lazy {
@@ -59,7 +64,8 @@ class LogInViewModel @Inject constructor(
             val account=accountDao.getAccountByUsernameAndPassword(username =name, password = family)
             if (account !=null){
                 _logInState.update { it.copy(isLoggedIn = true, errorMessage = null) }
-//                _logInState.value= LoginState()
+                _gotoHomeChannel.send(true)
+               //_logInState.value= LoginState()
                 loadUserBmiRecords(account.accountId)
             } else {
                 _logInState.update { it.copy(errorMessage = "Invalid credentials", isLoggedIn = false) }
