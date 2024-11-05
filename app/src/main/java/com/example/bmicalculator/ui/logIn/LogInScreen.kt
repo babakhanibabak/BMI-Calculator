@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
@@ -26,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,13 +61,12 @@ fun LogInScreenContent(
     uiState: LoginState,
     onLoginClick: () -> Unit,
     onChangeUsername: (String) -> Unit,
-
 ) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF35D2E9), shape = RoundedCornerShape(25.dp),),
+            .background(Color(0xFF35D2E9), shape = RoundedCornerShape(25.dp)),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -95,13 +96,16 @@ fun LogInScreenContent(
                     onChange = onChangeUsername
                 )
                 Spacer(modifier = Modifier.size(25.dp))
-                Row {
+                Row(modifier=Modifier.
+                width(150.dp).
+                padding(top = 50.dp)) {
                     LoginButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.width(50.dp)
                             .weight(0.1f),
-                        onClick = onLoginClick
+                        onClick = onLoginClick,
+                        shape = RoundedCornerShape(15.dp)
                     )
+
                 }
             }
         }
@@ -136,12 +140,14 @@ fun TextFieldName(
 fun LoginButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    shape: Shape
 ) {
     Button(
         modifier = modifier
-            .fillMaxWidth(), onClick = onClick
+            .fillMaxWidth(), onClick = onClick,
+        shape = shape
     ) {
-        Text(text = "Next ->")
+        Text(text = "Next ->", fontSize = 20.sp)
     }
 }
 
