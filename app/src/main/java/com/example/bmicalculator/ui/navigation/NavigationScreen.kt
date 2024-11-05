@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bmicalculator.ui.bmi.BmiScreen
 import com.example.bmicalculator.ui.classification.ClassificationScreen
 import com.example.bmicalculator.ui.history.HistoryScreen
+import com.example.bmicalculator.ui.logIn.LogInScreen
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 @Composable
@@ -37,6 +38,13 @@ private fun NavigationScreenContent() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
+            val currentDestination=navController.currentBackStackEntry?.destination?.route
+            if (currentDestination in listOf(
+                    BottomBarDestination.Map.route,
+                    BottomBarDestination.Points.route,
+                    BottomBarDestination.Profile.route
+                )
+            ){
             NavigationBar {
                 BottomNavigationItem().bottomNavigationItems()
                     .forEachIndexed { index, item ->
@@ -68,6 +76,7 @@ private fun NavigationScreenContent() {
                         )
                     }
             }
+            }
         }
     ) { paddingValues ->
         NavHost(
@@ -75,15 +84,18 @@ private fun NavigationScreenContent() {
                 .fillMaxSize()
                 .padding(paddingValues),
             navController = navController,
-            startDestination = BottomBarDestination.Map.route,
+            startDestination = "LogInScreen",
         ) {
+            composable("LogInScreen"){
+                LogInScreen(navController=navController)
+            }
             composable(BottomBarDestination.Map.route) {
                 BmiScreen()
             }
             composable(BottomBarDestination.Points.route) {
                 HistoryScreen()
             }
-            composable(BottomBarDestination.classification.route) {
+            composable(BottomBarDestination.Profile.route) {
                 ClassificationScreen()
             }
         }
