@@ -1,6 +1,7 @@
 package com.example.bmicalculator.ui.bmi
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bmicalculator.data.extensions.formatBmiValue
@@ -25,7 +26,10 @@ class BmiViewModel @Inject constructor(
     private val getBodyFatUseCase: GetBodyFatUseCase,
     private val insertBmiRecordUseCase: InsertBmiUseCase,
     @ApplicationContext private val context: Context,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val userId = savedStateHandle.get<String>("userId")?.toLongOrNull()
 
     private val _uiState = MutableStateFlow(
         BmiScreenState(

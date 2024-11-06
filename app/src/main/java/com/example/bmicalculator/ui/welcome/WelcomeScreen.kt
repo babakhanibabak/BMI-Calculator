@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,10 +44,12 @@ import com.example.bmicalculator.ui.component.UserItem
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.DarkBlue
 import com.example.bmicalculator.ui.theme.DarkGreen
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun WelcomeScreen(
     viewModel: WelcomeViewModel = hiltViewModel(),
+    onNavigateToBmiScreen: (Long) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -74,8 +77,15 @@ fun WelcomeScreen(
                     uiState = uiState as WelcomeScreenState.ExistingUsers,
                     onDeleteUser = viewModel::onDeleteUser,
                     onNewUserClick = viewModel::onNewUserClick,
+                    onUserSelect = { viewModel.onUserSelect(it.id) },
                 )
             }
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.uiChannel.collectLatest { userId ->
+            onNavigateToBmiScreen(userId)
         }
     }
 }
@@ -186,6 +196,7 @@ private fun NewUserScreenContent(
 @Composable
 private fun ExistingUsersScreenContent(
     uiState: WelcomeScreenState.ExistingUsers,
+    onUserSelect: (UserUiModel) -> Unit = {},
     onDeleteUser: (UserUiModel) -> Unit = {},
     onNewUserClick: () -> Unit = {},
 ) {
@@ -201,6 +212,7 @@ private fun ExistingUsersScreenContent(
             UserItem(
                 model = it,
                 onDelete = onDeleteUser,
+                onClick = onUserSelect,
             )
         }
         OrLineUi(modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp))

@@ -12,8 +12,10 @@ import com.example.bmicalculator.ui.common.model.UserUiModel
 import com.example.bmicalculator.ui.common.model.toDomain
 import com.example.bmicalculator.ui.common.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +31,9 @@ class WelcomeViewModel @Inject constructor(
         initData()
         _uiState.asStateFlow()
     }
+
+    private val _uiChannel = Channel<Long>()
+    val uiChannel = _uiChannel.receiveAsFlow()
 
     private fun initData() {
         viewModelScope.launch {
@@ -68,6 +73,7 @@ class WelcomeViewModel @Inject constructor(
                         )
                     )
                     _uiState.value = state.copy(id = userId)
+                    onUserSelect(userId)
                 }
             }
         }
@@ -82,5 +88,11 @@ class WelcomeViewModel @Inject constructor(
 
     fun onNewUserClick() {
         _uiState.value = WelcomeScreenState.NewUser()
+    }
+
+    fun onUserSelect(userId: Long) {
+        viewModelScope.launch {
+            _uiChannel.send(userId)
+        }
     }
 }

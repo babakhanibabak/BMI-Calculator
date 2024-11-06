@@ -10,7 +10,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomBarDestination(val route: String) {
-    data object Map : BottomBarDestination("bmi_screen")
+    data object BMI : BottomBarDestination("bmi_screen/{userId}")
     data object Points : BottomBarDestination("history_screen")
     data object Profile: BottomBarDestination("profile_screen")
 }
@@ -26,7 +26,7 @@ data class BottomNavigationItem(
             selectedIcon = Icons.Filled.Person,
             unSelectedIcon = Icons.Outlined.Person,
             text = "Bmi",
-            route = BottomBarDestination.Map.route
+            route = BottomBarDestination.BMI.route
         ),
         BottomNavigationItem(
             selectedIcon = Icons.AutoMirrored.Filled.List,

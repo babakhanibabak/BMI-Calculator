@@ -16,9 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.bmicalculator.ui.bmi.BmiScreen
 import com.example.bmicalculator.ui.classification.ClassificationScreen
 import com.example.bmicalculator.ui.history.HistoryScreen
@@ -40,7 +42,7 @@ private fun NavigationScreenContent() {
         bottomBar = {
             val currentDestination = navController.currentBackStackEntry?.destination?.route
             if (currentDestination in listOf(
-                    BottomBarDestination.Map.route,
+                    BottomBarDestination.BMI.route,
                     BottomBarDestination.Points.route,
                     BottomBarDestination.Profile.route
                 )
@@ -84,12 +86,24 @@ private fun NavigationScreenContent() {
                 .fillMaxSize()
                 .padding(paddingValues),
             navController = navController,
-            startDestination = "LogInScreen",
+            startDestination = "WelcomeScreen",
         ) {
-            composable("LogInScreen") {
-                WelcomeScreen()
+            composable("WelcomeScreen") {
+                WelcomeScreen(
+                    onNavigateToBmiScreen = { userId ->
+                        val route = BottomBarDestination.BMI.route.replace(oldValue = "{userId}", newValue = userId.toString())
+                        navController.navigate(route) {
+                            popUpTo("WelcomeScreen") {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
             }
-            composable(BottomBarDestination.Map.route) {
+            composable(
+                route = BottomBarDestination.BMI.route,
+                arguments = listOf(navArgument("userId") { type = NavType.StringType }),
+            ) {
                 BmiScreen()
             }
             composable(BottomBarDestination.Points.route) {
