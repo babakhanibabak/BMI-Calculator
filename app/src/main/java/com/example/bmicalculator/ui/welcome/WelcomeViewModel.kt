@@ -79,4 +79,8 @@ class WelcomeViewModel @Inject constructor(
             initData()
         }
     }
+
+    fun onNewUserClick() {
+        _uiState.value = WelcomeScreenState.NewUser()
+    }
 }

@@ -2,10 +2,7 @@ package com.example.bmicalculator.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,30 +19,16 @@ fun OrLineUi(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        HorizontalDivider(
-            modifier = Modifier
-                .weight(0.4f)
-                .padding(start = 24.dp)
-                , thickness = 2.dp
-        )
-        Spacer(modifier = Modifier.size(5.dp))
-        Text(
-            text = stringResource(R.string.or)
-        )
-        Spacer(modifier = Modifier.size(5.dp))
-        HorizontalDivider(
-            modifier = Modifier
-                .weight(0.4f)
-                .padding(end = 24.dp)
-            , thickness = 2.dp
-        )
+        HorizontalDivider(modifier = Modifier.weight(1f), thickness = 2.dp)
+        Text(text = stringResource(R.string.or))
+        HorizontalDivider(modifier = Modifier.weight(1f), thickness = 2.dp)
     }
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun OrLineUiContentPreview() {
     BMICalculatorTheme {

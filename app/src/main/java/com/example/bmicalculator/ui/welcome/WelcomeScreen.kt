@@ -73,6 +73,7 @@ fun WelcomeScreen(
                 ExistingUsersScreenContent(
                     uiState = uiState as WelcomeScreenState.ExistingUsers,
                     onDeleteUser = viewModel::onDeleteUser,
+                    onNewUserClick = viewModel::onNewUserClick,
                 )
             }
         }
@@ -186,13 +187,13 @@ private fun NewUserScreenContent(
 private fun ExistingUsersScreenContent(
     uiState: WelcomeScreenState.ExistingUsers,
     onDeleteUser: (UserUiModel) -> Unit = {},
+    onNewUserClick: () -> Unit = {},
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = stringResource(R.string.continue_with),
+            text = stringResource(R.string.continue_with_title),
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -202,7 +203,17 @@ private fun ExistingUsersScreenContent(
                 onDelete = onDeleteUser,
             )
         }
-        OrLineUi()
+        OrLineUi(modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp))
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onNewUserClick,
+            shape = RoundedCornerShape(15.dp)
+        ) {
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = stringResource(R.string.new_user), fontSize = 16.sp
+            )
+        }
     }
 }
 
