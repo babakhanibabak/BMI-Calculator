@@ -9,6 +9,7 @@
 
     <string name="welcome">Welcome!</string>
     <string name="what_is_your_full_name">What is your full name?</string>
+    <string name="continue_with">Continue With</string>
     <string name="full_name">Full Name</string>
     <string name="next">Next</string>
     <string name="full_name_empty_error">"Name cannot be empty"</string>

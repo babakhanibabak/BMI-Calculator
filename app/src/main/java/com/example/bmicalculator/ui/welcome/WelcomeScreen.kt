@@ -38,6 +38,7 @@ import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.common.model.UserUiModel
 import com.example.bmicalculator.ui.component.GenderCardUi
+import com.example.bmicalculator.ui.component.OrLineUi
 import com.example.bmicalculator.ui.component.UserItem
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.DarkBlue
@@ -188,13 +189,20 @@ private fun ExistingUsersScreenContent(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = stringResource(R.string.continue_with),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+        )
         uiState.users.forEach {
             UserItem(
                 model = it,
                 onDelete = onDeleteUser,
             )
         }
+        OrLineUi()
     }
 }
 
