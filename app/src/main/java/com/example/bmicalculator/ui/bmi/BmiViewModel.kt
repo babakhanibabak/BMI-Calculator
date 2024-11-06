@@ -75,12 +75,12 @@ class BmiViewModel @Inject constructor(
                     insertBmiRecordUseCase.execute(
                         record = BmiModel(
                             age = ageValue,
-                            gender = value.gender,
                             height = heightValue,
                             weight = weightValue,
                             bmi = bmi,
                             idealWeight = idealWeight,
-                            bodyFat = bodyFat
+                            bodyFat = bodyFat,
+                            userId = 0,
                         )
                     )
                 }

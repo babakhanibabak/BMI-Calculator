@@ -15,8 +15,8 @@ data class BmiHistoryUiModel(
 )
 
 fun BmiModel.toUiModel() = BmiHistoryUiModel(
-    height = height,
-    weight = weight,
+    height = 0.0,
+    weight = 0.0,
     bmi = bmi.formatBmiValue(),
     idealWeight = idealWeight.formatBmiValue(),
     bodyFat = bodyFat.formatBmiValue(),

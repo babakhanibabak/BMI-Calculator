@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bmicalculator.ui.bmi.BmiScreen
 import com.example.bmicalculator.ui.classification.ClassificationScreen
 import com.example.bmicalculator.ui.history.HistoryScreen
-import com.example.bmicalculator.ui.logIn.LogInScreen
+import com.example.bmicalculator.ui.welcome.WelcomeScreen
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 
 @Composable
@@ -38,44 +38,44 @@ private fun NavigationScreenContent() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            val currentDestination=navController.currentBackStackEntry?.destination?.route
+            val currentDestination = navController.currentBackStackEntry?.destination?.route
             if (currentDestination in listOf(
                     BottomBarDestination.Map.route,
                     BottomBarDestination.Points.route,
                     BottomBarDestination.Profile.route
                 )
-            ){
-            NavigationBar {
-                BottomNavigationItem().bottomNavigationItems()
-                    .forEachIndexed { index, item ->
-                        val selected = index == selectedItemIndex
-                        NavigationBarItem(
-                            selected = selected,
-                            icon = {
-                                Icon(
-                                    imageVector = if (selected) item.selectedIcon else item.unSelectedIcon,
-                                    contentDescription = null,
-                                )
-                            },
-                            label = {
-                                Text(text = item.text, color = Color.Black)
-                            },
-                            onClick = {
-                                if (selectedItemIndex != index) {
-                                    selectedItemIndex = index
-                                    navController.navigate(item.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            inclusive = true
-                                            saveState = true
+            ) {
+                NavigationBar {
+                    BottomNavigationItem().bottomNavigationItems()
+                        .forEachIndexed { index, item ->
+                            val selected = index == selectedItemIndex
+                            NavigationBarItem(
+                                selected = selected,
+                                icon = {
+                                    Icon(
+                                        imageVector = if (selected) item.selectedIcon else item.unSelectedIcon,
+                                        contentDescription = null,
+                                    )
+                                },
+                                label = {
+                                    Text(text = item.text, color = Color.Black)
+                                },
+                                onClick = {
+                                    if (selectedItemIndex != index) {
+                                        selectedItemIndex = index
+                                        navController.navigate(item.route) {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                inclusive = true
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
                                     }
-                                }
-                            },
-                        )
-                    }
-            }
+                                },
+                            )
+                        }
+                }
             }
         }
     ) { paddingValues ->
@@ -86,8 +86,8 @@ private fun NavigationScreenContent() {
             navController = navController,
             startDestination = "LogInScreen",
         ) {
-            composable("LogInScreen"){
-                LogInScreen(navController=navController)
+            composable("LogInScreen") {
+                WelcomeScreen()
             }
             composable(BottomBarDestination.Map.route) {
                 BmiScreen()

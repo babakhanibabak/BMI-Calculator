@@ -35,8 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bmicalculator.domain.model.Gender
-import com.example.bmicalculator.ui.component.GenderCardUi
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.Blue3
 import com.example.bmicalculator.ui.theme.DarkGreen
@@ -50,7 +48,6 @@ fun BmiScreen(
 
     BmiScreenContent(
         uiState = uiState,
-        onSelectGender = viewModel::onSelectGender,
         onWeightChange = viewModel::onWeightChange,
         onHeightChange = viewModel::onHeightChange,
         onAgeChange = viewModel::onAgeChange,
@@ -61,7 +58,6 @@ fun BmiScreen(
 @Composable
 fun BmiScreenContent(
     uiState: BmiScreenState,
-    onSelectGender: (Gender) -> Unit = {},
     onWeightChange: (String) -> Unit = {},
     onHeightChange: (String) -> Unit = {},
     onAgeChange: (String) -> Unit = {},
@@ -81,25 +77,6 @@ fun BmiScreenContent(
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GenderCardUi(
-                gender = Gender.MALE,
-                isSelected = uiState.gender == Gender.MALE,
-                onClick = { onSelectGender(Gender.MALE) }
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            GenderCardUi(
-                gender = Gender.FEMALE,
-                isSelected = uiState.gender == Gender.FEMALE,
-                onClick = { onSelectGender(Gender.FEMALE) }
-            )
-        }
         Spacer(modifier = Modifier.size(8.dp))
         Column(
             modifier = Modifier
