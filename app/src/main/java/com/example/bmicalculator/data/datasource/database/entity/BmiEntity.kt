@@ -14,8 +14,8 @@ import com.example.bmicalculator.domain.model.BmiModel
     foreignKeys = [
         ForeignKey(
             entity = UserEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id"],
+            parentColumns = ["user_id"],
+            childColumns = ["user_id"],
             onDelete = ForeignKey.CASCADE,
         )
     ]
@@ -23,7 +23,7 @@ import com.example.bmicalculator.domain.model.BmiModel
 data class BmiEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    @ColumnInfo(index = true)
+    @ColumnInfo(name = "user_id")
     val userId: Long = 0,
     val age: Int,
     val height: Double,

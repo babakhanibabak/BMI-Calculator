@@ -10,6 +10,7 @@ import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.domain.usecase.GetBmiUseCase
 import com.example.bmicalculator.domain.usecase.GetBodyFatUseCase
 import com.example.bmicalculator.domain.usecase.GetIdealWeightUseCase
+import com.example.bmicalculator.domain.usecase.GetUserByIdUseCase
 import com.example.bmicalculator.domain.usecase.InsertBmiUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BmiViewModel @Inject constructor(
+    private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getBmiUseCase: GetBmiUseCase,
     private val getIdealWeightUseCase: GetIdealWeightUseCase,
     private val getBodyFatUseCase: GetBodyFatUseCase,
@@ -39,7 +41,22 @@ class BmiViewModel @Inject constructor(
             )
         )
     )
-    val uiState by lazy { _uiState.asStateFlow() }
+    val uiState by lazy {
+        initData()
+        _uiState.asStateFlow()
+    }
+
+    private fun initData() {
+        viewModelScope.launch {
+            userId?.let { id ->
+                getUserByIdUseCase.execute(id)?.let { userModel ->
+                    _uiState.update {
+                        it.copy(userId = userModel.id, fullName = userModel.fullName, gender = userModel.gender)
+                    }
+                }
+            }
+        }
+    }
 
     fun onSelectGender(gender: Gender) {
         _uiState.update { it.copy(gender = gender) }
@@ -78,13 +95,13 @@ class BmiViewModel @Inject constructor(
                 viewModelScope.launch {
                     insertBmiRecordUseCase.execute(
                         record = BmiModel(
+                            userId = value.userId,
                             age = ageValue,
                             height = heightValue,
                             weight = weightValue,
                             bmi = bmi,
                             idealWeight = idealWeight,
                             bodyFat = bodyFat,
-                            userId = 0,
                         )
                     )
                 }

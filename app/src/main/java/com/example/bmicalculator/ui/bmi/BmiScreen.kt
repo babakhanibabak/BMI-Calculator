@@ -77,6 +77,14 @@ fun BmiScreenContent(
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Welcome ${uiState.fullName}",
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
         Spacer(modifier = Modifier.size(8.dp))
         Column(
             modifier = Modifier

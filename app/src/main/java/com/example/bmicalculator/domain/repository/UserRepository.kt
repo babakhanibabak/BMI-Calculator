@@ -3,6 +3,7 @@ package com.example.bmicalculator.domain.repository
 import com.example.bmicalculator.domain.model.UserModel
 
 interface UserRepository {
+    suspend fun getUserById(userId: Long): UserModel?
     suspend fun getUsersCount(): Int
     suspend fun getAllUsers(): List<UserModel>
     suspend fun insertUser(user: UserModel): Long

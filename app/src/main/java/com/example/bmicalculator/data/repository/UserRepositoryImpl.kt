@@ -11,6 +11,10 @@ class UserRepositoryImpl @Inject constructor(
     private val userDao: UserDao,
 ) : UserRepository {
 
+    override suspend fun getUserById(userId: Long): UserModel? {
+        return userDao.getUserById(userId)?.toDomain()
+    }
+
     override suspend fun getUsersCount(): Int {
         return userDao.getUsersCount()
     }
