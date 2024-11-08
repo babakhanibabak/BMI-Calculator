@@ -41,7 +41,7 @@ fun CircularProgressBar(
         CircularProgressIndicator(
             progress = { value },
             modifier = modifier,
-            trackColor = Color.Gray.copy(alpha = 0.5f),
+            trackColor = Color.Gray.copy(alpha = 0.3f),
             color = color,
             strokeWidth = 8.dp,
             strokeCap = StrokeCap.Round
