@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -238,18 +239,27 @@ fun BmiScreenContent(
 
             uiState.bmiClassifications?.let { classifications ->
                 classifications.forEach { classification ->
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                classification.backgroundColor,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .padding(all = 8.dp),
-                        text = classification.title,
-                        fontWeight = FontWeight.Bold,
-                        color = classification.color,
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    ) {
+                        BmiClassificationCircle(circleColor = classification.BmiCircleColor)
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    classification.backgroundColor,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .padding(all = 8.dp),
+                            text = classification.title,
+                            fontWeight = FontWeight.Bold,
+                            color = classification.color,
+                        )
+                    }
                 }
             }
         }
