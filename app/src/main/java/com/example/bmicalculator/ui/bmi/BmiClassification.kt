@@ -25,12 +25,3 @@ data class BmiBmiClassificationItem(
     val backgroundColor: Color,
     val BmiCircleColor:Color
 )
-
-@Composable
-fun BmiClassificationCircle(circleColor: Color) {
-    Box(
-        modifier = Modifier
-            .size(12.dp)
-            .background(circleColor, shape = CircleShape)
-    )
-}
