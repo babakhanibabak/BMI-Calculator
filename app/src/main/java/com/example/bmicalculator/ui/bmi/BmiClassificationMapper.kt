@@ -26,6 +26,7 @@ object BmiClassificationMapper {
                         backgroundColor = if (color == Color.Black) Color.Transparent else color.copy(
                             alpha = 0.2f
                         ),
+                        BmiCircleColor = color
                     )
                 )
             }
