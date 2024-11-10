@@ -100,6 +100,7 @@ fun ClassificationScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp)
+                        .padding(start = 24.dp, end = 24.dp)
                         .background(
                             color = LightBlue2.copy(alpha = 0.3f),
                             shape = RoundedCornerShape(25.dp)
