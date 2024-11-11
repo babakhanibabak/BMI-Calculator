@@ -65,6 +65,7 @@ dependencies {
     //Map
     implementation(libs.androidx.compose.googleMap)
     implementation(libs.androidx.compose.gms)
+    implementation(libs.androidx.navigation.compose)
 
     //copy
     implementation(libs.kotlin.stdlib)

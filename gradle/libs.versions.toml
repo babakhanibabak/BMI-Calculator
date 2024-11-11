@@ -8,6 +8,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
+navigationCompose = "2.8.3"
 composeBom = "2024.10.01"
 room = "2.6.1"
 hilt = "2.52"
@@ -40,6 +41,7 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 androidx-compose-googleMap = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googleMap" }
 androidx-compose-gms = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "gms" }
