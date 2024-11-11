@@ -3,16 +3,18 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.example.bmicalculator"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.bmicalculator"
         minSdk = 25
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -72,6 +74,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
