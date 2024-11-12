@@ -15,7 +15,7 @@ fun MainChartScreen(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            "Main Chart Screen",
+            "Main Chart Screen test",
             color = Color.Red
         )
     }
