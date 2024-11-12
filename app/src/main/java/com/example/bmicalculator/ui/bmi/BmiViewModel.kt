@@ -102,6 +102,7 @@ class BmiViewModel @Inject constructor(
                             bmi = bmi,
                             idealWeight = idealWeight,
                             bodyFat = bodyFat,
+                            date = java.time.LocalDateTime.now(),
                         )
                     )
                 }

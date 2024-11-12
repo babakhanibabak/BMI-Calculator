@@ -5,8 +5,11 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.bmicalculator.data.datasource.database.converter.LocalDateTimeConverter
 import com.example.bmicalculator.data.datasource.database.entity.BmiEntity.Companion.BMI_COLUMN
 import com.example.bmicalculator.domain.model.BmiModel
+import java.time.LocalDateTime
 
 @Entity(
     "BmiData",
@@ -20,6 +23,7 @@ import com.example.bmicalculator.domain.model.BmiModel
         )
     ]
 )
+@TypeConverters(LocalDateTimeConverter::class)
 data class BmiEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -32,6 +36,7 @@ data class BmiEntity(
     val bmi: Double,
     val idealWeight: Double,
     val bodyFat: Double,
+    val date: LocalDateTime = LocalDateTime.now(),
 ) {
     companion object {
         const val BMI_COLUMN = "bmi_value"
@@ -46,6 +51,7 @@ fun BmiEntity.toDomain() = BmiModel(
     bmi = bmi,
     idealWeight = idealWeight,
     bodyFat = bodyFat,
+    date = date,
 )
 
 fun BmiModel.toEntity() = BmiEntity(
@@ -56,6 +62,7 @@ fun BmiModel.toEntity() = BmiEntity(
     bmi = bmi,
     bodyFat = bodyFat,
     idealWeight = idealWeight,
+    date = date,
 )
 
 
