@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.example.bmicalculator.R
 import com.example.bmicalculator.ui.component.MainGradientBackgroundContent
 import com.example.bmicalculator.ui.component.MyButton
@@ -26,20 +27,26 @@ import com.example.bmicalculator.ui.navigation.BaseRoute
 
 @Composable
 fun MainHomeScreen(
+    rootNavController: NavHostController,
     mainData: BaseRoute.Graph.Main,
     viewModel: MainHomeViewModel = hiltViewModel<MainHomeViewModel>().apply {
         setUserId(mainData.userId)
     },
-    onNavigateToBmi: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    MainHomeScreenContent(uiState = uiState)
+    MainHomeScreenContent(
+        uiState = uiState,
+        onCalculateClick = {
+            rootNavController.navigate(BaseRoute.Graph.Bmi)
+        },
+    )
 }
 
 @Composable
 private fun MainHomeScreenContent(
     uiState: MainHomeScreenState,
+    onCalculateClick: () -> Unit,
 ) {
     MainGradientBackgroundContent(
         title = uiState.title,
@@ -51,7 +58,7 @@ private fun MainHomeScreenContent(
             when (uiState) {
                 is MainHomeScreenState.Loading -> MyLoading()
                 is MainHomeScreenState.Error -> Text(text = uiState.message)
-                is MainHomeScreenState.Success -> ShowContent(uiState = uiState)
+                is MainHomeScreenState.Success -> ShowContent(uiState = uiState, onCalculateClick = onCalculateClick)
             }
         }
     }
@@ -60,15 +67,18 @@ private fun MainHomeScreenContent(
 @Composable
 private fun ShowContent(
     uiState: MainHomeScreenState.Success,
+    onCalculateClick: () -> Unit,
 ) {
     when {
-        uiState.data.bmiData.isNullOrEmpty() -> EmptyContent()
+        uiState.data.bmiData.isNullOrEmpty() -> EmptyContent(onCalculateClick = onCalculateClick)
         else -> BmiRecordsList()
     }
 }
 
 @Composable
-private fun EmptyContent() {
+private fun EmptyContent(
+    onCalculateClick: () -> Unit,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -81,7 +91,7 @@ private fun EmptyContent() {
         )
         Text(text = stringResource(id = R.string.no_bmi_data_found))
         MyButton(text = stringResource(R.string.calculate)) {
-            // TODO
+            onCalculateClick()
         }
     }
 }

@@ -1,6 +1,10 @@
 package com.example.bmicalculator.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -52,9 +56,21 @@ fun BmiRootNavHost(
         // Nested Graph - BMI
         navigation<BaseRoute.Graph.Bmi>(
             startDestination = BaseRoute.BmiScreen.Bmi,
+            enterTransition = {
+                slideIn(
+                    animationSpec = tween(700),
+                    initialOffset = { IntOffset(0, 3000) }
+                )
+            },
+            exitTransition = {
+                slideOut(
+                    animationSpec = tween(700),
+                    targetOffset = { IntOffset(0, 3000) },
+                )
+            }
         ) {
             composable<BaseRoute.BmiScreen.Bmi> {
-                BmiScreen()
+                BmiScreen(rootNavController = navController)
             }
             composable<BaseRoute.BmiScreen.BmiResult> {
                 // BMI Result Screen
