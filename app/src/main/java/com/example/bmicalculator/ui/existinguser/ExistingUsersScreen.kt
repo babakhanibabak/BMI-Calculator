@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.bmicalculator.R
 import com.example.bmicalculator.ui.common.model.UserUiModel
 import com.example.bmicalculator.ui.component.GradientBackgroundContent
+import com.example.bmicalculator.ui.component.MyButton
 import com.example.bmicalculator.ui.component.MyLoading
 import com.example.bmicalculator.ui.component.OrLineUi
 import com.example.bmicalculator.ui.component.UserItem
@@ -63,13 +64,15 @@ private fun ExistingUsersScreenContent(
         contentAlignment = Alignment.Center,
     ) {
         GradientBackgroundContent {
-            when(uiState) {
+            when (uiState) {
                 is ExistingUsersScreenState.Loading -> {
                     MyLoading()
                 }
+
                 is ExistingUsersScreenState.Error -> {
                     Text(text = uiState.message)
                 }
+
                 is ExistingUsersScreenState.Success -> {
                     UsersListContent(
                         uiState = uiState,
@@ -110,15 +113,11 @@ fun UsersListContent(
             }
             OrLineUi(modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp))
         }
-        Button(
+        MyButton(
             modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.new_user),
+            suffixIcon = Icons.Filled.Add,
             onClick = onNewUserClick,
-            shape = RoundedCornerShape(15.dp)
-        ) {
-            Text(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                text = stringResource(R.string.new_user), fontSize = 16.sp
-            )
-        }
+        )
     }
 }

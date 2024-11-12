@@ -3,6 +3,7 @@ package com.example.bmicalculator.ui.newuser
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,6 +35,7 @@ import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.component.GenderCardUi
 import com.example.bmicalculator.ui.component.GradientBackgroundContent
+import com.example.bmicalculator.ui.component.MyButton
 import com.example.bmicalculator.ui.navigation.BaseRoute
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -118,16 +120,13 @@ private fun NewUserScreenContent(
                 )
                 Spacer(modifier = Modifier.size(64.dp))
                 Box(modifier = Modifier.fillMaxWidth()) {
-                    Button(
+                    MyButton(
                         modifier = Modifier.align(Alignment.CenterEnd),
+                        contentPadding = PaddingValues(horizontal = 32.dp),
+                        text = stringResource(R.string.next),
+                        suffixIcon = Icons.Filled.PlayArrow,
                         onClick = onNextClick,
-                        shape = RoundedCornerShape(15.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(horizontal = 24.dp),
-                            text = stringResource(R.string.next), fontSize = 16.sp
-                        )
-                    }
+                    )
                 }
             }
         }
