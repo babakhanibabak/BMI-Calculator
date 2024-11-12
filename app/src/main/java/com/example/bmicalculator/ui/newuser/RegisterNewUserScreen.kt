@@ -18,6 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,96 +27,108 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.component.GenderCardUi
+import com.example.bmicalculator.ui.component.GradientBackgroundContent
 import com.example.bmicalculator.ui.navigation.BaseRoute
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
-import com.example.bmicalculator.ui.welcome.WelcomeScreenContent
-import com.example.bmicalculator.ui.welcome.WelcomeScreenState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterNewUserScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
+    viewModel: RegisterNewUserViewModel = hiltViewModel(),
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        WelcomeScreenContent {
-            NewUserScreenContent(
-                uiState = WelcomeScreenState.NewUser(),
-                onNextClick = {
-                    navController.navigate(BaseRoute.Graph.Main)
-                },
-                onChangeUsername = {},
-                onSelectGender = {},
-            )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    NewUserScreenContent(
+        uiState = uiState,
+        onSelectGender = viewModel::onSelectGender,
+        onChangeUsername = viewModel::onChangeUsername,
+        onNextClick = viewModel::onNextClick,
+    )
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.uiChannel.collectLatest { userId ->
+            navController.navigate(BaseRoute.Graph.Main(userId = userId)) {
+                popUpTo(BaseRoute.Graph.Registration) {
+                    inclusive = true
+                }
+            }
         }
     }
 }
 
 @Composable
 private fun NewUserScreenContent(
-    uiState: WelcomeScreenState.NewUser,
+    uiState: RegisterNewUserScreenState,
     onNextClick: () -> Unit,
     onChangeUsername: (String) -> Unit,
     onSelectGender: (Gender) -> Unit,
 ) {
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GenderCardUi(
-                gender = Gender.MALE,
-                isSelected = uiState.gender == Gender.MALE,
-                onClick = { onSelectGender(Gender.MALE) }
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            GenderCardUi(
-                gender = Gender.FEMALE,
-                isSelected = uiState.gender == Gender.FEMALE,
-                onClick = { onSelectGender(Gender.FEMALE) }
-            )
-        }
-        Spacer(modifier = Modifier.size(32.dp))
-        Text(
-            text = stringResource(R.string.what_is_your_full_name),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = uiState.fullName,
-            onValueChange = onChangeUsername,
-            isError = uiState.errorResId != null,
-            supportingText = {
-                uiState.errorResId?.let { Text(text = stringResource(it)) }
-            },
-            shape = RoundedCornerShape(25.dp),
-            leadingIcon = {
-                Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
-            },
-            placeholder = {
-                Text(text = stringResource(R.string.full_name))
-            }
-        )
-        Spacer(modifier = Modifier.size(64.dp))
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Button(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = onNextClick,
-                shape = RoundedCornerShape(15.dp)
-            ) {
-               Text(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    text = stringResource(R.string.next), fontSize = 16.sp
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        GradientBackgroundContent {
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    GenderCardUi(
+                        gender = Gender.MALE,
+                        isSelected = uiState.gender == Gender.MALE,
+                        onClick = { onSelectGender(Gender.MALE) }
+                    )
+                    Spacer(modifier = Modifier.size(16.dp))
+                    GenderCardUi(
+                        gender = Gender.FEMALE,
+                        isSelected = uiState.gender == Gender.FEMALE,
+                        onClick = { onSelectGender(Gender.FEMALE) }
+                    )
+                }
+                Spacer(modifier = Modifier.size(32.dp))
+                Text(
+                    text = stringResource(R.string.what_is_your_full_name),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = uiState.fullName,
+                    onValueChange = onChangeUsername,
+                    isError = uiState.errorResId != null,
+                    supportingText = {
+                        uiState.errorResId?.let { Text(text = stringResource(it)) }
+                    },
+                    shape = RoundedCornerShape(25.dp),
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
+                    },
+                    placeholder = {
+                        Text(text = stringResource(R.string.full_name))
+                    }
+                )
+                Spacer(modifier = Modifier.size(64.dp))
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        onClick = onNextClick,
+                        shape = RoundedCornerShape(15.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            text = stringResource(R.string.next), fontSize = 16.sp
+                        )
+                    }
+                }
             }
         }
     }
@@ -126,7 +140,7 @@ private fun WelcomeScreenContentPreview() {
     BMICalculatorTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             NewUserScreenContent(
-                uiState = WelcomeScreenState.NewUser(),
+                uiState = RegisterNewUserScreenState(),
                 onNextClick = {},
                 onChangeUsername = {},
                 onSelectGender = {}

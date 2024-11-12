@@ -12,11 +12,14 @@ sealed class BaseRoute {
         data object Registration : Graph()
 
         @Serializable
-        data object Main : Graph()
+        data class Main(val userId: Long) : Graph()
 
         @Serializable
         data object Bmi : Graph()
     }
+
+    @Serializable
+    data object WelcomeScreen : BaseRoute()
 
     sealed class RegistrationScreen : BaseRoute() {
         @Serializable

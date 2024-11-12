@@ -6,9 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.bmicalculator.ui.bmi.BmiScreen
 import com.example.bmicalculator.ui.existinguser.ExistingUsersScreen
 import com.example.bmicalculator.ui.main.MainNavHostContainer
 import com.example.bmicalculator.ui.newuser.RegisterNewUserScreen
+import com.example.bmicalculator.ui.welcome.WelcomeScreen
 
 @Composable
 fun BmiRootNavHost(
@@ -17,8 +20,13 @@ fun BmiRootNavHost(
     NavHost(
         navController = navController,
         route = BaseRoute.Graph.Root::class,
-        startDestination = BaseRoute.Graph.Registration,
+        startDestination = BaseRoute.WelcomeScreen,
     ) {
+        // Welcome Screen
+        composable<BaseRoute.WelcomeScreen> {
+            WelcomeScreen(navController = navController)
+        }
+
         // Nested Graph - Registration
         navigation<BaseRoute.Graph.Registration>(
             startDestination = BaseRoute.RegistrationScreen.NewUser,
@@ -29,13 +37,16 @@ fun BmiRootNavHost(
                 )
             }
             composable<BaseRoute.RegistrationScreen.ExistingUser> {
-                ExistingUsersScreen()
+                ExistingUsersScreen(navController = navController)
             }
         }
 
         // Nested Graph - Main
-        composable<BaseRoute.Graph.Main> {
-            MainNavHostContainer(rootNavController = navController)
+        composable<BaseRoute.Graph.Main> { backStackEntry ->
+            MainNavHostContainer(
+                rootNavController = navController,
+                mainData = backStackEntry.toRoute(),
+            )
         }
 
         // Nested Graph - BMI
@@ -43,7 +54,7 @@ fun BmiRootNavHost(
             startDestination = BaseRoute.BmiScreen.Bmi,
         ) {
             composable<BaseRoute.BmiScreen.Bmi> {
-                // BMI Screen
+                BmiScreen()
             }
             composable<BaseRoute.BmiScreen.BmiResult> {
                 // BMI Result Screen
