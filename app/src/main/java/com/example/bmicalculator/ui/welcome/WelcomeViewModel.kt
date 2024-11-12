@@ -28,7 +28,6 @@ class WelcomeViewModel @Inject constructor(
 
     private fun initData() {
         viewModelScope.launch {
-            delay(1000)
             runCatching {
                 getAllUsersUseCase.execute()
             }.onSuccess {

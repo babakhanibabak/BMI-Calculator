@@ -8,7 +8,7 @@ import javax.inject.Inject
 class BmiRecordsFlowUseCase @Inject constructor(
     private val repository: BmiRepository,
 ) {
-    fun execute(): Flow<List<BmiModel>> {
-        return repository.getAllRecords()
+    fun execute(userId: Long): Flow<List<BmiModel>> {
+        return repository.getAllRecords(userId)
     }
 }

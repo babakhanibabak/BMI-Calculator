@@ -65,6 +65,7 @@ fun MainNavHostContainer(
         ) {
             composable<BaseRoute.MainScreen.Home> {
                 MainHomeScreen(
+                    mainData = mainData,
                     onNavigateToBmi = {
                         rootNavController.navigate(route = BaseRoute.Graph.Bmi)
                     },

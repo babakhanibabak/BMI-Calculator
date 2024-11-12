@@ -25,7 +25,7 @@ class HistoryViewModel @Inject constructor(
 
     private fun initData() {
         viewModelScope.launch {
-            recordsFlowUseCase.execute().catch {
+            recordsFlowUseCase.execute(0).catch {
                 _uiState.update { it.copy(isLoading = false, isError = true) }
             }.collect { records ->
                 _uiState.update {

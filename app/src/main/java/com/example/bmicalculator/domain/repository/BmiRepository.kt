@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface BmiRepository {
     suspend fun insert(record: BmiModel)
-    fun getAllRecords(): Flow<List<BmiModel>>
+    fun getAllRecords(userId: Long): Flow<List<BmiModel>>
 }

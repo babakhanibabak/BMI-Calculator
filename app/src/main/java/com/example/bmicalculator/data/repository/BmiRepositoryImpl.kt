@@ -17,8 +17,8 @@ class BmiRepositoryImpl @Inject constructor(
         bmiDao.insertBmiData(record.toEntity())
     }
 
-    override fun getAllRecords(): Flow<List<BmiModel>> {
-        return bmiDao.getAllBmiFlow().map { records ->
+    override fun getAllRecords(userId: Long): Flow<List<BmiModel>> {
+        return bmiDao.getBmiForUserFlow(userId).map { records ->
             records.map { it.toDomain() }
         }
     }

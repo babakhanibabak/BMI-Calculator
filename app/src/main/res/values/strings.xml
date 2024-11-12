@@ -23,5 +23,7 @@
     <string name="cancel">Cancel</string>
     <string name="new_user">New User</string>
     <string name="unknown_error_occurred">Unknown error occurred</string>
+    <string name="no_bmi_data_found">No BMI data found</string>
+    <string name="calculate">Calculate</string>
 
 </resources>
