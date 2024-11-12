@@ -29,8 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bmicalculator.ui.bmi.BmiScreenState
-import com.example.bmicalculator.ui.bmi.BmiViewModel
+import com.example.bmicalculator.ui.bmi.calculate.BmiCalculateScreenState
+import com.example.bmicalculator.ui.bmi.calculate.BmiCalculateViewModel
 import com.example.bmicalculator.ui.component.CircularProgressBar
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.DarkBlue
@@ -40,7 +40,7 @@ import com.example.bmicalculator.ui.theme.normalColor
 
 @Composable
 fun ClassificationScreen(
-    viewModel: BmiViewModel = hiltViewModel()
+    viewModel: BmiCalculateViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -50,7 +50,7 @@ fun ClassificationScreen(
 
 @Composable
 fun ClassificationScreenContent(
-    uiState: BmiScreenState
+    uiState: BmiCalculateScreenState
 ) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -96,64 +96,7 @@ fun ClassificationScreenContent(
                         .padding(16.dp),
                     fontSize = 20.sp,
                     color = Color.Black)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .padding(start = 24.dp, end = 24.dp)
-                        .background(
-                            color = LightBlue2.copy(alpha = 0.3f),
-                            shape = RoundedCornerShape(25.dp)
-                        ),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(0.33f)) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "BMI",
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(modifier = Modifier.size(15.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = uiState.bmi.toString(),
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Column(modifier = Modifier.weight(0.33f)) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "Ideal Weight",
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(modifier = Modifier.size(15.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = uiState.idealWeight.toString(),
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    Column(modifier = Modifier.weight(0.33f)) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "FAT",
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                        Spacer(modifier = Modifier.size(15.dp))
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = uiState.bodyFat.toString(),
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -187,6 +130,6 @@ fun ClassificationScreenContent(
 @Composable
 private fun ClassificationScreenContentPreview() {
     BMICalculatorTheme {
-        ClassificationScreenContent(uiState = BmiScreenState())
+        ClassificationScreenContent(uiState = BmiCalculateScreenState())
     }
 }

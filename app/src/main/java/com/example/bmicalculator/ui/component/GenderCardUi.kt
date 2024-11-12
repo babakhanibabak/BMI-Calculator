@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.DarkBlue
@@ -56,13 +55,6 @@ fun GenderCardUi(
                 contentDescription = null
             )
         }
-    }
-}
-
-private fun Gender.getImageId(): Int {
-    return when (this) {
-        Gender.MALE -> R.drawable.male
-        Gender.FEMALE -> R.drawable.female
     }
 }
 

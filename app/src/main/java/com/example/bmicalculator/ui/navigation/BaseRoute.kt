@@ -42,9 +42,17 @@ sealed class BaseRoute {
 
     sealed class BmiScreen : BaseRoute() {
         @Serializable
-        data object Bmi : BmiScreen()
+        data class Bmi(val userId: Long) : BmiScreen()
 
         @Serializable
-        data object BmiResult : BmiScreen()
+        data class BmiResult(
+            val bmiRecordId: Long? = null,
+            val age: Int,
+            val height: Double,
+            val weight: Double,
+            val bmi: Double,
+            val idealWeight: Double,
+            val bodyFat: Double,
+        ) : BmiScreen()
     }
 }

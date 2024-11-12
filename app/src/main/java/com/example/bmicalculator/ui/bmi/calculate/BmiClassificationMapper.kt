@@ -1,4 +1,4 @@
-package com.example.bmicalculator.ui.bmi
+package com.example.bmicalculator.ui.bmi.calculate
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
@@ -12,21 +12,21 @@ import com.example.bmicalculator.ui.theme.underweightColor
 
 object BmiClassificationMapper {
 
-    fun mapClassifications(bmi: String?, context: Context): List<BmiBmiClassificationItem> {
+    fun mapClassifications(bmi: String?, context: Context): List<BmiClassificationItem> {
         val bmiNumber = bmi?.toDoubleOrNull()
         val classification = getBmiClassification(bmiNumber)
-        val items = mutableListOf<BmiBmiClassificationItem>()
+        val items = mutableListOf<BmiClassificationItem>()
         BmiClassification.entries.forEach {
             if (it != BmiClassification.UNKNOWN) {
                 val color = if (classification == it) getClassificationColor(it) else Color.Black
                 items.add(
-                    BmiBmiClassificationItem(
+                    BmiClassificationItem(
                         title = getClassificationTitle(it, context),
                         color = color,
                         backgroundColor = if (color == Color.Black) Color.Transparent else color.copy(
                             alpha = 0.2f
                         ),
-                        BmiCircleColor = color
+                        bmiCircleColor = color
                     )
                 )
             }

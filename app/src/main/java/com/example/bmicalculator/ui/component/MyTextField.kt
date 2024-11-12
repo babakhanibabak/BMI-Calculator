@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.Text
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
+import com.example.bmicalculator.ui.theme.DarkBlue
 import com.example.bmicalculator.ui.theme.MyBlue
 
 @Composable
@@ -18,6 +20,7 @@ fun MyTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    placeholder: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     enabled: Boolean = true,
@@ -31,6 +34,8 @@ fun MyTextField(
             unfocusedContainerColor = MyBlue,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
+            focusedPlaceholderColor = Color.Gray,
+            unfocusedPlaceholderColor = Color.Gray,
         ),
         value = value,
         onValueChange = onValueChange,
@@ -38,6 +43,9 @@ fun MyTextField(
         isError = isError,
         supportingText = supportingText,
         leadingIcon = leadingIcon,
+        placeholder = placeholder?.let {
+            { Text(text = it, color = DarkBlue) }
+        }
     )
 }
 
@@ -47,10 +55,10 @@ fun MyTextFieldPreview() {
     BMICalculatorTheme {
         Column(Modifier.padding(16.dp)) {
             MyTextField(
-                value = "Hello",
+                value = "",
+                placeholder = "Enter your age",
                 onValueChange = {},
             )
         }
-
     }
 }

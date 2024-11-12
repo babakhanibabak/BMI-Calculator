@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.bmicalculator.R
+import com.example.bmicalculator.ui.common.model.UserUiModel
 import com.example.bmicalculator.ui.component.MainGradientBackgroundContent
 import com.example.bmicalculator.ui.component.MyButton
 import com.example.bmicalculator.ui.component.MyLoading
@@ -37,8 +38,8 @@ fun MainHomeScreen(
 
     MainHomeScreenContent(
         uiState = uiState,
-        onCalculateClick = {
-            rootNavController.navigate(BaseRoute.Graph.Bmi)
+        onCalculateClick = { userModel ->
+            rootNavController.navigate(BaseRoute.BmiScreen.Bmi(userId = userModel.id))
         },
     )
 }
@@ -46,7 +47,7 @@ fun MainHomeScreen(
 @Composable
 private fun MainHomeScreenContent(
     uiState: MainHomeScreenState,
-    onCalculateClick: () -> Unit,
+    onCalculateClick: (UserUiModel) -> Unit,
 ) {
     MainGradientBackgroundContent(
         title = uiState.title,
@@ -67,17 +68,22 @@ private fun MainHomeScreenContent(
 @Composable
 private fun ShowContent(
     uiState: MainHomeScreenState.Success,
-    onCalculateClick: () -> Unit,
+    onCalculateClick: (UserUiModel) -> Unit,
 ) {
     when {
-        uiState.data.bmiData.isNullOrEmpty() -> EmptyContent(onCalculateClick = onCalculateClick)
+        uiState.data.bmiData.isNullOrEmpty() -> EmptyContent(
+            uiState = uiState,
+            onCalculateClick = onCalculateClick,
+        )
+
         else -> BmiRecordsList()
     }
 }
 
 @Composable
 private fun EmptyContent(
-    onCalculateClick: () -> Unit,
+    uiState: MainHomeScreenState.Success,
+    onCalculateClick: (UserUiModel) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,12 +97,14 @@ private fun EmptyContent(
         )
         Text(text = stringResource(id = R.string.no_bmi_data_found))
         MyButton(text = stringResource(R.string.calculate)) {
-            onCalculateClick()
+            uiState.data.userData?.let {
+                onCalculateClick(it)
+            }
         }
     }
 }
 
 @Composable
 private fun BmiRecordsList() {
-
+    // TODO
 }

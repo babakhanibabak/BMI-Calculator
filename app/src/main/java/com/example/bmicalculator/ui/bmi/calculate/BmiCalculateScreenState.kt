@@ -1,8 +1,8 @@
-package com.example.bmicalculator.ui.bmi
+package com.example.bmicalculator.ui.bmi.calculate
 
 import com.example.bmicalculator.domain.model.Gender
 
-data class BmiScreenState(
+data class BmiCalculateScreenState(
     val userId: Long = 0,
     val fullName: String = "",
     val gender: Gender = Gender.MALE,
@@ -12,5 +12,5 @@ data class BmiScreenState(
     val bmi: String? = "--",
     val idealWeight: String? = "--",
     val bodyFat: String? = "--",
-    val bmiClassifications: List<BmiBmiClassificationItem>? = null,
+    val bmiClassifications: List<BmiClassificationItem>? = null,
 )

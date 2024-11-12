@@ -14,7 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.bmicalculator.ui.bmi.BmiScreen
+import com.example.bmicalculator.ui.bmi.calculate.BmiScreen
+import com.example.bmicalculator.ui.bmi.result.BmiResultScreen
 import com.example.bmicalculator.ui.existinguser.ExistingUsersScreen
 import com.example.bmicalculator.ui.main.MainNavHostContainer
 import com.example.bmicalculator.ui.newuser.RegisterNewUserScreen
@@ -40,7 +41,7 @@ fun BmiRootNavHost(
 
         // Nested Graph - Registration
         navigation<BaseRoute.Graph.Registration>(
-            startDestination = BaseRoute.RegistrationScreen.NewUser,
+            startDestination = BaseRoute.RegistrationScreen.NewUser::class,
         ) {
             composable<BaseRoute.RegistrationScreen.NewUser> {
                 RegisterNewUserScreen(
@@ -62,7 +63,7 @@ fun BmiRootNavHost(
 
         // Nested Graph - BMI
         navigation<BaseRoute.Graph.Bmi>(
-            startDestination = BaseRoute.BmiScreen.Bmi,
+            startDestination = BaseRoute.BmiScreen.Bmi::class,
             enterTransition = {
                 slideIn(
                     animationSpec = tween(700),
@@ -80,7 +81,7 @@ fun BmiRootNavHost(
                 BmiScreen(rootNavController = navController)
             }
             composable<BaseRoute.BmiScreen.BmiResult> {
-                // BMI Result Screen
+                BmiResultScreen(rootNavController = navController)
             }
         }
     }

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 fun BmiClassificationCircle(circleColor: Color) {
     Box(
         modifier = Modifier
-            .size(12.dp)
+            .size(16.dp)
             .background(circleColor, shape = CircleShape)
     )
 }
