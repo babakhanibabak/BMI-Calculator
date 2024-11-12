@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +34,7 @@ import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.component.GenderCardUi
 import com.example.bmicalculator.ui.component.GradientBackgroundContent
 import com.example.bmicalculator.ui.component.MyButton
+import com.example.bmicalculator.ui.component.MyTextField
 import com.example.bmicalculator.ui.navigation.BaseRoute
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -97,12 +96,13 @@ private fun NewUserScreenContent(
                 }
                 Spacer(modifier = Modifier.size(32.dp))
                 Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     text = stringResource(R.string.what_is_your_full_name),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
+                MyTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.fullName,
                     onValueChange = onChangeUsername,
@@ -110,12 +110,8 @@ private fun NewUserScreenContent(
                     supportingText = {
                         uiState.errorResId?.let { Text(text = stringResource(it)) }
                     },
-                    shape = RoundedCornerShape(25.dp),
                     leadingIcon = {
                         Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
-                    },
-                    placeholder = {
-                        Text(text = stringResource(R.string.full_name))
                     }
                 )
                 Spacer(modifier = Modifier.size(64.dp))

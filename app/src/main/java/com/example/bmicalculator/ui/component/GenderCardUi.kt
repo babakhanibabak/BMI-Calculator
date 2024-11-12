@@ -1,6 +1,7 @@
 package com.example.bmicalculator.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,7 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.example.bmicalculator.R
 import com.example.bmicalculator.domain.model.Gender
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
-import com.example.bmicalculator.ui.theme.GenderSelectedColor
+import com.example.bmicalculator.ui.theme.DarkBlue
+import com.example.bmicalculator.ui.theme.MyBlue
 
 @Composable
 fun GenderCardUi(
@@ -34,11 +36,12 @@ fun GenderCardUi(
     Card(
         modifier = modifier
             .clip(shape = RoundedCornerShape(12.dp))
+            .border(width = 1.dp, color = DarkBlue, shape = RoundedCornerShape(12.dp))
             .clickable { onClick() },
         colors = CardColors(
             contentColor = Color.Transparent,
             disabledContentColor = Color.Transparent,
-            containerColor = if (isSelected) GenderSelectedColor else Color.White,
+            containerColor = if (isSelected) MyBlue else Color.White,
             disabledContainerColor = Color.White,
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),

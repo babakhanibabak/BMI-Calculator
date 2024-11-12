@@ -25,6 +25,8 @@ val Teal_200=Color(0xFF03DAC5)
 val Blue3=Color(0xFF35D2E9)
 val LightBlue2=Color(0xFF42DDFF)
 
+val MyBlue = Color(0xFFD4F3F7)
+
 val underweightColor = Color(0xFF42DDFF)  // Custom color for Underweight
 val normalColor = Color(0xFF4CC885)       // Custom color for Normal weight
 val overweightColor = Color(0xFFEDE735)   // Custom color for Overweight
