@@ -4,7 +4,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +24,10 @@ import com.example.bmicalculator.ui.welcome.WelcomeScreen
 fun BmiRootNavHost(
     navController: NavHostController = rememberNavController(),
 ) {
+    val density = LocalDensity.current
+    val configuration = LocalConfiguration.current
+    val screenHeight = with(density) { configuration.screenHeightDp.dp.toPx() }
+
     NavHost(
         navController = navController,
         route = BaseRoute.Graph.Root::class,
@@ -59,13 +66,13 @@ fun BmiRootNavHost(
             enterTransition = {
                 slideIn(
                     animationSpec = tween(700),
-                    initialOffset = { IntOffset(0, 3000) }
+                    initialOffset = { IntOffset(0, screenHeight.toInt()) }
                 )
             },
             exitTransition = {
                 slideOut(
                     animationSpec = tween(700),
-                    targetOffset = { IntOffset(0, 3000) },
+                    targetOffset = { IntOffset(0, screenHeight.toInt()) },
                 )
             }
         ) {
