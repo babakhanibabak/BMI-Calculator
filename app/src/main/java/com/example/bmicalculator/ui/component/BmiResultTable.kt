@@ -24,9 +24,9 @@ import com.example.bmicalculator.ui.theme.LightBlue2
 @SuppressLint("DefaultLocale")
 @Composable
 fun BmiResultTable(
-    age: Int,
-    height: Double,
-    weight: Double,
+    age: String,
+    height: String,
+    weight: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -42,17 +42,20 @@ fun BmiResultTable(
     ) {
         TableColumn(
             modifier = Modifier.weight(1f),
-            title = stringResource(R.string.age), value = age.toString()
+            title = stringResource(R.string.age),
+            value = age,
         )
         VerticalDivider(modifier = Modifier.heightIn(max = 40.dp))
         TableColumn(
             modifier = Modifier.weight(1f),
-            title = stringResource(R.string.weight), value = String.format("%.2f", weight)
+            title = stringResource(R.string.weight),
+            value = weight,
         )
         VerticalDivider(modifier = Modifier.heightIn(max = 40.dp))
         TableColumn(
             modifier = Modifier.weight(1f),
-            title = stringResource(R.string.height), value = String.format("%.2f", height)
+            title = stringResource(R.string.height),
+            value = height,
         )
     }
 }
@@ -80,9 +83,9 @@ fun TableColumn(
 fun BmiResultTablePreview() {
     BMICalculatorTheme {
         BmiResultTable(
-            age = 25,
-            weight = 70.0,
-            height = 20.0
+            age = "25",
+            weight = "70",
+            height = "180"
         )
     }
 }

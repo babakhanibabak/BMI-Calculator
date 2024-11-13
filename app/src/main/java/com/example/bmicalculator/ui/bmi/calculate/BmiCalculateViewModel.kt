@@ -5,13 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.bmicalculator.data.extensions.formatBmiValue
-import com.example.bmicalculator.domain.model.BmiModel
 import com.example.bmicalculator.domain.usecase.GetBmiUseCase
 import com.example.bmicalculator.domain.usecase.GetBodyFatUseCase
 import com.example.bmicalculator.domain.usecase.GetIdealWeightUseCase
 import com.example.bmicalculator.domain.usecase.GetUserByIdUseCase
-import com.example.bmicalculator.domain.usecase.InsertBmiUseCase
 import com.example.bmicalculator.ui.navigation.BaseRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,21 +26,13 @@ class BmiCalculateViewModel @Inject constructor(
     private val getBmiUseCase: GetBmiUseCase,
     private val getIdealWeightUseCase: GetIdealWeightUseCase,
     private val getBodyFatUseCase: GetBodyFatUseCase,
-    private val insertBmiRecordUseCase: InsertBmiUseCase,
     @ApplicationContext private val context: Context,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val userId = savedStateHandle.toRoute<BaseRoute.BmiScreen.Bmi>().userId
 
-    private val _uiState = MutableStateFlow(
-        BmiCalculateScreenState(
-            bmiClassifications = BmiClassificationMapper.mapClassifications(
-                bmi = null,
-                context = context,
-            )
-        )
-    )
+    private val _uiState = MutableStateFlow(BmiCalculateScreenState())
     val uiState by lazy {
         initData()
         _uiState.asStateFlow()
@@ -80,38 +69,6 @@ class BmiCalculateViewModel @Inject constructor(
         _uiState.update { it.copy(age = age) }
     }
 
-    // Save BMI, Ideal Weight, and Body Fat to history
-    fun onSaveToHistory() {
-        with(_uiState) {
-            if (value.weight.isNotEmpty() && value.height.isNotEmpty() && value.age.isNotEmpty()) {
-                val weightValue = value.weight.toDoubleOrNull() ?: 0.0
-                val heightValue = value.height.toDoubleOrNull() ?: 0.0
-                val ageValue = value.age.toIntOrNull() ?: 0
-
-                // Calculate BMI, ideal weight, and body fat
-                val bmi = getBmiUseCase.execute(weightValue, heightValue)
-                val idealWeight = getIdealWeightUseCase.execute(heightValue, value.gender)
-                val bodyFat = getBodyFatUseCase.execute(bmi, ageValue, value.gender)
-
-                // Save to the database
-                viewModelScope.launch {
-                    insertBmiRecordUseCase.execute(
-                        record = BmiModel(
-                            userId = value.userId,
-                            age = ageValue,
-                            height = heightValue,
-                            weight = weightValue,
-                            bmi = bmi,
-                            idealWeight = idealWeight,
-                            bodyFat = bodyFat,
-                            date = java.time.LocalDateTime.now(),
-                        )
-                    )
-                }
-            }
-        }
-    }
-
     fun onCalculateBmi() {
         viewModelScope.launch {
             with(_uiState.value) {
@@ -123,18 +80,6 @@ class BmiCalculateViewModel @Inject constructor(
                     val bmi = getBmiUseCase.execute(weightValue, heightValue)
                     val idealWeight = getIdealWeightUseCase.execute(heightValue, gender)
                     val bodyFat = getBodyFatUseCase.execute(bmi, ageValue, gender)
-
-                    _uiState.update {
-                        it.copy(
-                            bmi = bmi.formatBmiValue(),
-                            idealWeight = idealWeight.formatBmiValue(),
-                            bodyFat = bodyFat.formatBmiValue(),
-                            bmiClassifications = BmiClassificationMapper.mapClassifications(
-                                bmi = bmi.formatBmiValue(),
-                                context = context,
-                            )
-                        )
-                    }
 
                     _uiChannel.send(
                         BaseRoute.BmiScreen.BmiResult(

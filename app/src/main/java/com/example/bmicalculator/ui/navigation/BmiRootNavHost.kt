@@ -2,6 +2,7 @@ package com.example.bmicalculator.ui.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -64,23 +65,38 @@ fun BmiRootNavHost(
         // Nested Graph - BMI
         navigation<BaseRoute.Graph.Bmi>(
             startDestination = BaseRoute.BmiScreen.Bmi::class,
-            enterTransition = {
-                slideIn(
-                    animationSpec = tween(700),
-                    initialOffset = { IntOffset(0, screenHeight.toInt()) }
-                )
-            },
-            exitTransition = {
-                slideOut(
-                    animationSpec = tween(700),
-                    targetOffset = { IntOffset(0, screenHeight.toInt()) },
-                )
-            }
         ) {
-            composable<BaseRoute.BmiScreen.Bmi> {
+            composable<BaseRoute.BmiScreen.Bmi>(
+                popEnterTransition = null,
+                enterTransition = {
+                    slideIn(
+                        animationSpec = tween(700),
+                        initialOffset = { IntOffset(0, screenHeight.toInt()) }
+                    )
+                },
+                exitTransition = {
+                    slideOut(
+                        animationSpec = tween(700),
+                        targetOffset = { IntOffset(0, screenHeight.toInt()) },
+                    )
+                },
+            ) {
                 BmiScreen(rootNavController = navController)
             }
-            composable<BaseRoute.BmiScreen.BmiResult> {
+            composable<BaseRoute.BmiScreen.BmiResult>(
+                enterTransition = {
+                    slideIn(
+                        animationSpec = tween(700),
+                        initialOffset = { IntOffset(0, screenHeight.toInt()) }
+                    )
+                },
+                exitTransition = {
+                    slideOut(
+                        animationSpec = tween(700),
+                        targetOffset = { IntOffset(0, screenHeight.toInt()) },
+                    )
+                },
+            ) {
                 BmiResultScreen(rootNavController = navController)
             }
         }

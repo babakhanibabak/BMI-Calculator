@@ -3,7 +3,7 @@ package com.example.bmicalculator.ui.history
 import androidx.compose.ui.graphics.Color
 import com.example.bmicalculator.data.extensions.formatBmiValue
 import com.example.bmicalculator.domain.model.BmiModel
-import com.example.bmicalculator.ui.bmi.calculate.BmiClassificationMapper
+import com.example.bmicalculator.ui.bmi.BmiClassificationMapper
 
 data class BmiHistoryUiModel(
     val height: Double,

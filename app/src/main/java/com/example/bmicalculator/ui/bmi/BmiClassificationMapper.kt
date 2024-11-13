@@ -1,4 +1,4 @@
-package com.example.bmicalculator.ui.bmi.calculate
+package com.example.bmicalculator.ui.bmi
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
@@ -11,6 +11,8 @@ import com.example.bmicalculator.ui.theme.overweightColor
 import com.example.bmicalculator.ui.theme.underweightColor
 
 object BmiClassificationMapper {
+
+    const val MAX_BMI = 40.0
 
     fun mapClassifications(bmi: String?, context: Context): List<BmiClassificationItem> {
         val bmiNumber = bmi?.toDoubleOrNull()

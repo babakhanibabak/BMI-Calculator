@@ -1,5 +1,6 @@
 package com.example.bmicalculator.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -15,31 +16,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Text
+import com.example.bmicalculator.ui.bmi.BmiClassificationMapper.MAX_BMI
 import com.example.bmicalculator.ui.theme.BMICalculatorTheme
 import com.example.bmicalculator.ui.theme.normalColor
 
 /***
- * @param value should be between 0 and 1
+ * @param bmiValue should be between 0 and 1
  * @param color color of the progress bar
  */
+@SuppressLint("DefaultLocale")
 @Composable
-fun CircularProgressBar(
-    value: Float,
+fun BmiCircularProgressBar(
+    bmiValue: Double,
+    formattedBmiValue: String,
     color: Color,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
 ) {
     Box(
         modifier = modifier
-            .background(
-                color = backgroundColor,
-                shape = CircleShape,
-            )
+            .background(color = backgroundColor, shape = CircleShape)
             .clip(CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
-            progress = { value },
+            progress = { (bmiValue / MAX_BMI).toFloat().coerceIn(0f, 1f) },
             modifier = modifier,
             trackColor = Color.Gray.copy(alpha = 0.5f),
             color = color,
@@ -47,7 +48,7 @@ fun CircularProgressBar(
             strokeCap = StrokeCap.Round
         )
         Text(
-            text = value.toString(),
+            text = formattedBmiValue,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
         )
@@ -58,9 +59,10 @@ fun CircularProgressBar(
 @Composable
 fun CircularProgressBarPreview() {
     BMICalculatorTheme {
-        CircularProgressBar(
+        BmiCircularProgressBar(
             modifier = Modifier.size(100.dp),
-            value = .3f,
+            bmiValue = 17.0,
+            formattedBmiValue = "17",
             color = normalColor,
         )
     }
