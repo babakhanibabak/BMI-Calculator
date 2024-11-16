@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -120,7 +120,7 @@ private fun NewUserScreenContent(
                         modifier = Modifier.align(Alignment.CenterEnd),
                         contentPadding = PaddingValues(horizontal = 32.dp),
                         text = stringResource(R.string.next),
-                        suffixIcon = Icons.Filled.PlayArrow,
+                        suffixIcon = Icons.AutoMirrored.Filled.ArrowForward,
                         onClick = onNextClick,
                     )
                 }
